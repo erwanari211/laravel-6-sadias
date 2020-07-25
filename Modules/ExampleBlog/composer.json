@@ -1,0 +1,25 @@
+{
+    "name": "nwidart/exampleblog",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ExampleBlog\\Providers\\ExampleBlogServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ExampleBlog\\": ""
+        }
+    }
+}

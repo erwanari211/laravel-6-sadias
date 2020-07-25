@@ -1,0 +1,13 @@
+{
+    "name": "ExampleBlog",
+    "alias": "exampleblog",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\ExampleBlog\\Providers\\ExampleBlogServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
