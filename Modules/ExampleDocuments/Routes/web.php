@@ -13,4 +13,9 @@
 
 Route::group(['prefix' => 'example-documents', 'as' => 'example.documents.'], function () {
     Route::get('/', 'ExampleDocumentsController@index');
+
+    Route::group(['prefix' => 'form-components'], function () {
+        Route::get('/', 'FormComponentBootstrapController@index');
+        Route::post('/', 'FormComponentBootstrapController@store')->name('form-components.store');
+    });
 });
