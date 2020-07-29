@@ -50,7 +50,10 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "tests/utilities/functions.php"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -73,6 +76,21 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -N"
+        ],
+        "run-testing": [
+            "php artisan cache:clear",
+            "php artisan config:clear",
+            "\"vendor/bin/phpunit\" --debug"
+        ],
+        "run-testing-filter": [
+            "php artisan cache:clear",
+            "php artisan config:clear",
+            "\"vendor/bin/phpunit\" \"tests/Feature/ExampleTest\" --debug"
+        ],
+        "run-testing-by-module": [
+            "php artisan cache:clear",
+            "php artisan config:clear",
+            "\"vendor/bin/phpunit\" --filter 'Modules\\\\ModuleName\\\\Tests\\\\' --debug"
         ]
     }
 }
