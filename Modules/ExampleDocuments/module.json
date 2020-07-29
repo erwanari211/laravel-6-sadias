@@ -1,0 +1,13 @@
+{
+    "name": "ExampleDocuments",
+    "alias": "exampledocuments",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\ExampleDocuments\\Providers\\ExampleDocumentsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
