@@ -11,6 +11,10 @@
 |
 */
 
-Route::prefix('exampleblog')->group(function() {
+Route::group(['prefix' => 'example-blog', 'as' => 'example.blog.'], function () {
+    Route::group(['prefix' => 'backend', 'as' => 'backend.', 'namespace' => 'Backend'], function () {
+        Route::resource('channels', 'ChannelController')->middleware('auth');
+    });
+
     Route::get('/', 'ExampleBlogController@index');
 });

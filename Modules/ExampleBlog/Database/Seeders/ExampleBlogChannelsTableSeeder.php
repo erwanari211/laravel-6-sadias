@@ -4,8 +4,9 @@ namespace Modules\ExampleBlog\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\ExampleBlog\Database\Seeders\ExampleBlogChannelsTableSeeder;
-class ExampleBlogDatabaseSeeder extends Seeder
+use Modules\ExampleBlog\Entities\ExampleBlogChannel as Channel;
+
+class ExampleBlogChannelsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +17,6 @@ class ExampleBlogDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
-        $this->call(ExampleBlogChannelsTableSeeder::class);
+        create(Channel::class, [], 10);
     }
 }
