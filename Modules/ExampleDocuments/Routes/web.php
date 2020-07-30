@@ -18,4 +18,6 @@ Route::group(['prefix' => 'example-documents', 'as' => 'example.documents.'], fu
         Route::get('/', 'FormComponentBootstrapController@index');
         Route::post('/', 'FormComponentBootstrapController@store')->name('form-components.store');
     });
+
+    Route::get('/flash-message', 'FlashController@index');
 });
