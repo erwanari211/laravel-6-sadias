@@ -82,6 +82,15 @@
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -N"
         ],
+        "db-fresh-seed": [
+            "composer dump-autoload",
+            "php artisan migrate:fresh --seed",
+            "php artisan module:seed"
+        ],
+        "db-seed-class": [
+            "composer dump-autoload",
+            "php artisan db:seed --class=DatabaseSeeder"
+        ],
         "run-testing": [
             "php artisan cache:clear",
             "php artisan config:clear",
