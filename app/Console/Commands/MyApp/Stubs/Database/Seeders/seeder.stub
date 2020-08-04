@@ -1,0 +1,22 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
+use $MODEL_CLASS_NAMESPACE$\$MODEL_CLASS$;
+
+class $SEEDER_CLASS$ extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        Model::unguard();
+
+        factory($MODEL_CLASS$::class, 10)->create();
+    }
+}

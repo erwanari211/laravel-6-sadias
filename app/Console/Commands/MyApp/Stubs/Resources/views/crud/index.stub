@@ -1,0 +1,18 @@
+@extends('$MODULE$layouts.main')
+
+@section('content')
+<div class="container">
+  <h1>{{ __('$MODULE$$LANG_FILE$.crud.index') }}</h1>
+
+  @include('$MODULE$includes.messages')
+
+  <div class="mb-4">
+    <a class="btn btn-primary" href="{{ route('$MODULE_ROUTE_NAME$$ROUTE_NAME$.create') }}">
+      {{ __('my_app.crud.create') }}
+    </a>
+  </div>
+
+  @include('$MODULE$$VIEW_DIRECTORY$.table')
+</div>
+
+@endsection

@@ -1,0 +1,47 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use $MODEL_CLASS_NAMESPACE$\$MODEL_CLASS$;
+use $RESOURCE_CLASS_NAMESPACE$\$RESOURCE_CLASS$;
+
+class $SERVICE_CLASS$
+{
+    public $model;
+    public $perPage = 10;
+
+    public function __construct()
+    {
+        $this->model = new $MODEL_CLASS$;
+    }
+
+    public function getData()
+    {
+        $data = $this->model->with('user')->latest()->paginate($this->perPage);
+        return $RESOURCE_CLASS$::collection($data);
+    }
+
+    public function getItem($id)
+    {
+        $item = $this->model->findOrFail($id)->load('user');
+        return new $RESOURCE_CLASS$($item);
+    }
+
+    public function create($data)
+    {
+        $item = $this->model;
+        $item = $item->create($data);
+        return $item;
+    }
+
+    public function update($item, $data)
+    {
+        $item->update($data);
+        return $item;
+    }
+
+    public function delete($item)
+    {
+        return $item->delete();
+    }
+}

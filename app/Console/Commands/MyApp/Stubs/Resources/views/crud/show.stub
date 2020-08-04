@@ -1,0 +1,17 @@
+@extends('$MODULE$layouts.main')
+
+@section('content')
+  <div class="container">
+    <h1>{{ __('$MODULE$$LANG_FILE$.crud.show') }}</h1>
+
+    @include('$MODULE$includes.messages')
+
+    {{ Form::model($$MODEL_VARIABLE$, [
+      'url' => '#',
+      'method' => 'POST',
+      'files' => false,
+      ]) }}
+      @include('$MODULE$$VIEW_DIRECTORY$.form_fields', ['actionType' => 'show'])
+    {{ Form::close() }}
+  </div>
+@endsection

@@ -1,0 +1,50 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>{{ __('my_app.columns.no') }}</th>
+        <th>{{ __('my_app.columns.actions') }}</th>
+$TABLE_HEADER$
+      </tr>
+    </thead>
+    <tbody>
+      @if(count($$MODEL_VARIABLE_PLURAL$))
+        @php $no = $$MODEL_VARIABLE_PLURAL$->firstItem() @endphp
+        @foreach($$MODEL_VARIABLE_PLURAL$ as $$MODEL_VARIABLE$)
+          <tr>
+            <td>{{ $no }}</td>
+            <td>
+              <a class="btn btn-secondary"
+                href="{{ route('$MODULE_ROUTE_NAME$$ROUTE_NAME$.show', [$$MODEL_VARIABLE$->id]) }}">
+                {{ __('my_app.crud.show') }}
+              </a>
+              <a class="btn btn-success"
+                href="{{ route('$MODULE_ROUTE_NAME$$ROUTE_NAME$.edit', [$$MODEL_VARIABLE$->id]) }}">
+                {{ __('my_app.crud.edit') }}
+              </a>
+              {{ Form::open([
+                'route' => ['$MODULE_ROUTE_NAME$$ROUTE_NAME$.destroy', $$MODEL_VARIABLE$->id],
+                'method' => 'DELETE',
+                'files' => false,
+                'style' => 'display: inline'
+                ]) }}
+                <button class="btn btn-danger" type="submit"
+                  onclick="return confirm('{{ __('my_app.table.delete_confirmation') }}')">
+                  {{ __('my_app.crud.delete') }}
+                </button>
+              {{ Form::close() }}
+            </td>
+$TABLE_BODY$
+          </tr>
+          @php $no++ @endphp
+        @endforeach
+      @else
+        <tr>
+          <td colspan="99">{{ __('my_app.table.no_data') }}</td>
+        </tr>
+      @endif
+    </tbody>
+  </table>
+</div>
+
+{{ $$MODEL_VARIABLE_PLURAL$->appends(request()->only(['search']))->links() }}
