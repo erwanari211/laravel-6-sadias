@@ -33,7 +33,7 @@ class $POLICY_CLASS$
 
     public function view(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
     {
-        return $$MODEL_VARIABLE$->user_id == $user->id;
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
     }
 
     public function create(User $user)
@@ -43,21 +43,21 @@ class $POLICY_CLASS$
 
     public function update(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
     {
-        return $$MODEL_VARIABLE$->user_id == $user->id;
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
     }
 
     public function delete(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
     {
-        return $$MODEL_VARIABLE$->user_id == $user->id;
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
     }
 
     public function restore(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
     {
-        return $$MODEL_VARIABLE$->user_id == $user->id;
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
     }
 
     public function forceDelete(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
     {
-        return $$MODEL_VARIABLE$->user_id == $user->id;
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
     }
 }

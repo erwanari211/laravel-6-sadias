@@ -153,7 +153,7 @@ class MakeFactory extends Command
                     }
                 }
 
-                $result .= "\t\t";
+                $result .= "        ";
                 $result .= '\''.$field.'\' => '.$fakeData.',';
                 $result .= "\n";
             }

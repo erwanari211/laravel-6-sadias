@@ -18,7 +18,6 @@ class $MODEL_CLASS$ extends Model
     // protected $guarded = ['id'];
     protected $fillable = $FILLABLE$;
     // protected $hidden = [];
-    // protected $dates = [];
     // protected $with = [];
     // protected $perPage = 15;
     // protected $casts = [];
@@ -42,7 +41,7 @@ class $MODEL_CLASS$ extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
+$RELATIONS$
     /*
     |--------------------------------------------------------------------------
     | SCOPES

@@ -42,7 +42,7 @@ class $CONTROLLER_CLASS$ extends Controller
 
         $message = __('my_app.messages.data_created');
         flash($message)->success();
-        return redirect()->route('$ROUTE_NAME$index');
+        return redirect()->route('$MODULE_ROUTE_NAME$$ROUTE_NAME$.index');
     }
 
     public function show($MODEL_CLASS$ $$MODEL_VARIABLE$)
@@ -65,7 +65,7 @@ class $CONTROLLER_CLASS$ extends Controller
 
         $message = __('my_app.messages.data_updated');
         flash($message)->success();
-        return redirect()->route('$ROUTE_NAME$index');
+        return redirect()->route('$MODULE_ROUTE_NAME$$ROUTE_NAME$.index');
     }
 
     public function destroy($MODEL_CLASS$ $$MODEL_VARIABLE$)
@@ -75,6 +75,6 @@ class $CONTROLLER_CLASS$ extends Controller
 
         $message = __('my_app.messages.data_deleted');
         flash($message)->success();
-        return redirect()->route('$ROUTE_NAME$index');
+        return redirect()->route('$MODULE_ROUTE_NAME$$ROUTE_NAME$.index');
     }
 }

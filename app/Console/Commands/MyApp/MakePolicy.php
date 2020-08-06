@@ -14,6 +14,7 @@ class MakePolicy extends Command
     protected $signature = 'my_app:make_policy
                             {name : Name}
                             {--module= : Module name}
+                            {--file-settings= : File Settings}
                             {--output=1 : Use default folder output}
                             {--force=0 : Force}
                             {--debug : Debug}';
@@ -57,6 +58,8 @@ class MakePolicy extends Command
         $this->setOutputName();
         $this->setOutputPath();
 
+        $this->readFileSettings();
+
         if($this->option('debug')){
             $this->line('Output Path is : ' . $this->outputPath);
         }
@@ -87,8 +90,19 @@ class MakePolicy extends Command
                 )
             ),
             'MODEL_VARIABLE' => $this->data['MODEL_VARIABLE'],
+            'COLUMN' => $this->getColumnName(),
         ];
 
         return $replaceData;
+    }
+
+    public function getColumnName()
+    {
+        $column = 'user_id';
+        if ($this->settings && isset($this->settings['policy']['column'])) {
+            $column = $this->settings['policy']['column'];
+        }
+
+        return $column;
     }
 }

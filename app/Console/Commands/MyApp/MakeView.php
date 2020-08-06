@@ -104,7 +104,7 @@ class MakeView extends Command
         $fileDirectories = $this->getFileDirectoryData();
         $module = $this->option('module');
         $replaceData = [
-            'MODULE' => $module ? $module . '::' : '' ,
+            'MODULE' => $module ? strtolower($module) . '::' : '' ,
             'VIEW_DIRECTORY' => $this->data['VIEW_DIRECTORY'],
             'LANG_FILE' => $this->data['LANG_FILE'],
             'ROUTE_NAME' => $this->data['ROUTE_NAME'],
@@ -125,7 +125,7 @@ class MakeView extends Command
         $result = '';
         if($settings && isset($settings['fields'])){
             $module = $this->option('module');
-            $moduleName = $module ? $module . '::' : '';
+            $moduleName = $module ? strtolower($module) . '::' : '';
             $langFile = $this->data['LANG_FILE'];
             foreach ($settings['fields'] as $field => $fieldSettings) {
                 $inputType = 'bsText';
@@ -173,7 +173,8 @@ class MakeView extends Command
                     if (in_array($fieldType, [
                         'morphs', 'uuidMorphs',
                         'nullableMorphs', 'nullableUuidMorphs'])) {
-                        $inputType = 'null';
+                        $inputType = null;
+                        continue;
                     }
 
                     if (in_array($fieldType, ['uuid'])) {
@@ -198,10 +199,17 @@ class MakeView extends Command
         if($settings && isset($settings['fields'])){
             $result .= "\n";
             $module = $this->option('module');
-            $moduleName = $module ? $module . '::' : '';
+            $moduleName = $module ? strtolower($module) . '::' : '';
             $langFile = $this->data['LANG_FILE'];
             foreach ($settings['fields'] as $field => $fieldSettings) {
-                $result .= "\t\t\t\t";
+                $fieldSetting = explode('|', $fieldSettings[0]);
+                $fieldType = array_shift($fieldSetting);
+
+                if ($fieldType == 'morphs') {
+                    continue;
+                }
+
+                $result .= "                ";
                 $result .= '<th>{{ __(\''.$moduleName.$langFile.'.attributes.'.$field.'\') }}</th>';
                 $result .= "\n";
             }
@@ -218,10 +226,17 @@ class MakeView extends Command
             $result .= "\n";
             $modelVariable = $this->data['MODEL_VARIABLE'];
             $module = $this->option('module');
-            $moduleName = $module ? $module . '::' : '';
+            $moduleName = $module ? strtolower($module) . '::' : '';
             $langFile = $this->data['LANG_FILE'];
             foreach ($settings['fields'] as $field => $fieldSettings) {
-                $result .= "\t\t\t\t\t\t";
+                $fieldSetting = explode('|', $fieldSettings[0]);
+                $fieldType = array_shift($fieldSetting);
+
+                if ($fieldType == 'morphs') {
+                    continue;
+                }
+
+                $result .= "                        ";
                 $result .= '<td>{{ $'.$modelVariable.'->'.$field.' }}</td>';
                 $result .= "\n";
             }

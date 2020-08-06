@@ -104,7 +104,7 @@ class MakeRequest extends Command
         if($settings && isset($settings['rules'])){
             $result .= "\n";
             foreach ($settings['rules'] as $field => $rule) {
-                $result .= "\t\t\t";
+                $result .= "            ";
                 $result .= '\''.$field.'\' => \''.$rule.'\',';
                 $result .= "\n";
             }

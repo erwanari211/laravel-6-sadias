@@ -1,5 +1,7 @@
 @extends('$MODULE$layouts.main')
 
+@section('title', __('$MODULE$$LANG_FILE$.crud.create'))
+
 @section('content')
   <div class="container">
     <h1>{{ __('$MODULE$$LANG_FILE$.crud.create') }}</h1>

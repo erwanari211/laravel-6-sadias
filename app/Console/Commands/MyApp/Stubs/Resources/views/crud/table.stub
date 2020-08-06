@@ -2,8 +2,8 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>{{ __('my_app.columns.no') }}</th>
-        <th>{{ __('my_app.columns.actions') }}</th>
+        <th>{{ __('my_app.table.columns.no') }}</th>
+        <th>{{ __('my_app.table.columns.actions') }}</th>
 $TABLE_HEADER$
       </tr>
     </thead>

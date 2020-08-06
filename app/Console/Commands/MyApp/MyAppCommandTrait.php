@@ -161,11 +161,11 @@ trait MyAppCommandTrait
     public function getViewPath()
     {
         $name = $this->argument('name');
-        $viewPath = Str::kebab(Str::plural(Str::studly($name))); // post-categories
+        $viewPath = Str::kebab(Str::plural(Str::studly($name)));
 
         if ($this->option('module')) {
             $module = $this->option('module');
-            $viewPath = $module.'::'.$viewPath;
+            $viewPath = strtolower($module).'::'.$viewPath;
         }
         return $viewPath;
     }

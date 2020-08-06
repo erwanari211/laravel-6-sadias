@@ -76,6 +76,7 @@ class MakeController extends Command
     public function getReplaceData()
     {
         $fileDirectories = $this->getFileDirectoryData();
+        $module = $this->option('module');
         $replaceData = [
             'CONTROLLER_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
@@ -107,6 +108,7 @@ class MakeController extends Command
             'MODEL_VARIABLE_PLURAL' => $this->data['MODEL_VARIABLE_PLURAL'],
             'SUBJECT' => $this->data['SUBJECT'],
             'VIEW_PATH' => $this->data['VIEW_PATH'],
+            'MODULE_ROUTE_NAME' => $module ? Str::kebab($module).'.' : '',
             'ROUTE_NAME' => $this->data['ROUTE_NAME'],
         ];
 
@@ -141,7 +143,7 @@ class MakeController extends Command
 
             $currentContent = File::get($routeFile);
             $newContent = $currentContent;
-            $newContent .= "\n" . $newResourceRoute . "\n";
+            $newContent .= "\n" . $newResourceRoute;
             File::put($routeFile, $newContent);
         }
     }

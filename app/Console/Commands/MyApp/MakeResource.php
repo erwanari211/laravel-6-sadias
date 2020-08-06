@@ -94,12 +94,12 @@ class MakeResource extends Command
         if($settings && isset($settings['fields'])){
             $result .= "\n";
             foreach ($settings['fields'] as $field => $fieldSettings) {
-                $result .= "\t\t\t";
+                $result .= "            ";
                 $result .= '\''.$field.'\' => $this->'.$field.',';
                 $result .= "\n";
             }
-            $result .= "\t\t\t".'\'created_at\' => (string) $this->created_at,'."\n";
-            $result .= "\t\t\t".'\'updated_at\' => (string) $this->updated_at,'."\n";
+            $result .= "            ".'\'created_at\' => (string) $this->created_at,'."\n";
+            $result .= "            ".'\'updated_at\' => (string) $this->updated_at,'."\n";
         }
 
         return $result;

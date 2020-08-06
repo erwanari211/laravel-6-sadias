@@ -12,11 +12,11 @@ class GenerateFiles extends Command
 
     protected $signature = 'my_app:generate_files
                             {name : Name}
-                            {--output=1 : Use default folder output}
                             {--module= : Module name}
                             {--file-settings= : File Settings}
-                            {--force=0 : Force}
+                            {--output=1 : Use default folder output}
                             {--lang= : Language}
+                            {--force=0 : Force}
                             {--debug : Debug}';
 
     protected $description = 'Generate some files';
@@ -85,6 +85,7 @@ class GenerateFiles extends Command
         $this->call('my_app:make_policy', [
             'name' => $name,
             '--module' => $module,
+            '--file-settings' => $fileSettings,
             '--output' => $output,
             '--force' => $force,
             '--debug' => $debug,

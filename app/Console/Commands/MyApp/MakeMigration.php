@@ -126,7 +126,7 @@ class MakeMigration extends Command
                     }
                 }
 
-                $result .= "\t\t\t";
+                $result .= "            ";
                 $result .= '$table->'.$fieldType;
                 $result .= '(\''.$field.'\''.$fieldTypeParams.')';
                 $result .= $fieldModifier;

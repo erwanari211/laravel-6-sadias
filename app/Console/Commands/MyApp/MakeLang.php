@@ -59,10 +59,11 @@ class MakeLang extends Command
         $this->setOutputName();
         $this->setOutputPath();
 
+        $lang = 'id';
         if($this->option('lang')){
             $lang = $this->option('lang');
-            $this->outputPath .= '/' . $lang;
         }
+        $this->outputPath .= '/' . $lang;
 
         $this->readFileSettings();
 
@@ -98,7 +99,7 @@ class MakeLang extends Command
         if($settings && isset($settings['lang'])){
             $result .= "\n";
             foreach ($settings['lang'] as $field => $lang) {
-                $result .= "\t\t";
+                $result .= "        ";
                 $result .= '\''.$field.'\' => \''.$lang.'\',';
                 $result .= "\n";
             }
