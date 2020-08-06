@@ -3,9 +3,12 @@
 namespace $NAMESPACE$;
 
 use Illuminate\Database\Eloquent\Model;
+use $PRESENTER_CLASS_NAMESPACE$\$PRESENTER_CLASS$;
 
 class $MODEL_CLASS$ extends Model
 {
+    use $PRESENTER_CLASS$;
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

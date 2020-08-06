@@ -77,11 +77,20 @@ class MakeModel extends Command
 
     public function getReplaceData()
     {
+        $fileDirectories = $this->getFileDirectoryData();
         $replaceData = [
             'MODEL_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
             'FILLABLE' => $this->getFillableFields(),
             'RELATIONS' => $this->getReations(),
+            'PRESENTER_CLASS' => $this->data['PRESENTER_CLASS'],
+            'PRESENTER_CLASS_NAMESPACE' => $this->pathToNamespace(
+                str_replace(
+                    rtrim($fileDirectories['model'], '/'),
+                    rtrim($fileDirectories['presenter'], '/'),
+                    $this->classNamespace
+                )
+            ),
         ];
 
         return $replaceData;

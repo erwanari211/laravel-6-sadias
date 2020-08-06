@@ -22,6 +22,7 @@ trait MyAppCommandTrait
         $data['MIGRATION_CLASS'] = "Create{$plural}Table";
         $data['MIGRATION_FILENAME'] = date('Y_m_d_His').'_create_'.strtolower(Str::snake($plural)).'_table';
         $data['TABLE_NAME'] = strtolower(Str::snake($plural));
+        $data['PRESENTER_CLASS'] = "{$singular}Presenter";
         $data['FACTORY_CLASS'] = "{$singular}Factory";
         $data['SEEDER_CLASS'] = "{$plural}TableSeeder";
         $data['POLICY_CLASS'] = "{$singular}Policy";
@@ -48,7 +49,8 @@ trait MyAppCommandTrait
     public function getFileDirectoryData()
     {
         return [
-            'model' => 'Entities/',
+            'model' => 'Models/',
+            'presenter' => 'Presenters/',
             'migration' => 'Database/Migrations/',
             'factory' => 'Database/Factories/',
             'seeder' => 'Database/Seeders/',

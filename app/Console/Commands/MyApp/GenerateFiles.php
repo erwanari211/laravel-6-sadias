@@ -47,6 +47,14 @@ class GenerateFiles extends Command
         ]);
         */
 
+        $this->call('my_app:make_presenter', [
+            'name' => $name,
+            '--module' => $module,
+            '--output' => $output,
+            '--force' => $force,
+            '--debug' => $debug,
+        ]);
+
         $this->call('my_app:make_model', [
             'name' => $name,
             '--module' => $module,
