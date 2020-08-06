@@ -64,6 +64,7 @@ class MakeLang extends Command
             $lang = $this->option('lang');
         }
         $this->outputPath .= '/' . $lang;
+        $this->setOutputPathInRoot();
 
         $this->readFileSettings();
 

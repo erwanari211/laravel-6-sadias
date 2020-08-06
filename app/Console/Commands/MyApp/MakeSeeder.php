@@ -56,6 +56,14 @@ class MakeSeeder extends Command
         $this->setData();
         $this->setOutputName();
         $this->setOutputPath();
+        $this->setOutputPathInRoot();
+        if (!$this->option('module')) {
+            $this->outputPath = str_replace(
+                'Seeders',
+                'seeds',
+                $this->outputPath
+            );
+        }
 
         if($this->option('debug')){
             $this->line('Output Path is : ' . $this->outputPath);

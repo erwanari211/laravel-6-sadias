@@ -62,6 +62,7 @@ class MakeView extends Command
 
         $viewDirectory = $this->data['VIEW_DIRECTORY'];
         $this->outputPath .= '/' . $viewDirectory;
+        $this->setOutputPathInRoot();
 
         $views = ['index', 'table', 'create', 'show', 'edit', 'form_fields'];
         foreach ($views as $view) {

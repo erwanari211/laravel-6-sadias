@@ -90,6 +90,17 @@ trait MyAppCommandTrait
         }
     }
 
+    public function setOutputPathInRoot()
+    {
+        if (!$this->option('module')) {
+            $this->outputPath = str_replace(
+                $this->basepath.'app',
+                $this->basepath,
+                $this->outputPath
+            );
+        }
+    }
+
     public function makeFileFromStub($path)
     {
         $file = $this->stubFile;
