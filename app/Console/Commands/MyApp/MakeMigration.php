@@ -65,6 +65,12 @@ class MakeMigration extends Command
             $this->line('Output Path is : ' . $this->outputPath);
         }
 
+        $migrationAlreadyExists = $this->checkMigrationAlreadyExists();
+        if ($migrationAlreadyExists) {
+            $this->info($this->fileType . ' already exists.');
+            return false;
+        }
+
         $success = $this->makeFileFromStub($this->outputPath);
         if ($success) {
             $this->info($this->fileType . ' created successfully.');
@@ -137,5 +143,22 @@ class MakeMigration extends Command
         }
 
         return $result;
+    }
+
+    public function checkMigrationAlreadyExists()
+    {
+        $migrationAlreadyExists = false;
+
+        $filenameWithoutTimestamp = substr($this->outputName, 18);
+        $files = File::allFiles($this->outputPath);
+        foreach ($files as $file) {
+            $migrationFilename = $file->getFilename();
+            if (strpos($migrationFilename, $filenameWithoutTimestamp) !== false) {
+                $migrationAlreadyExists = true;
+                break;
+            }
+        }
+
+        return $migrationAlreadyExists;
     }
 }

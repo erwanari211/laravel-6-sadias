@@ -158,7 +158,11 @@ trait MyAppCommandTrait
 
     public function pathToNamespace($path)
     {
-        return str_replace('/', '\\', $path);
+        $path = str_replace('/', '\\', $path);
+        if (!$this->option('module')) {
+            $path = str_replace('app', 'App', $path);
+        }
+        return $path;
     }
 
     public function readFileSettings()

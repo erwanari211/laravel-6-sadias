@@ -142,9 +142,18 @@ class MakeController extends Command
             $newResourceRoute = 'Route::resource(\''.$routeName.'\', \''.$controllerClass.'\');';
 
             $currentContent = File::get($routeFile);
-            $newContent = $currentContent;
-            $newContent .= "\n" . $newResourceRoute;
-            File::put($routeFile, $newContent);
+
+            $routeAlreadyExists = false;
+            if (strpos($currentContent, $newResourceRoute) !== false) {
+                $routeAlreadyExists = true;
+            }
+
+            if (!$routeAlreadyExists) {
+                $newContent = $currentContent;
+                $newContent .= "\n" . $newResourceRoute;
+                File::put($routeFile, $newContent);
+            }
+
         }
     }
 }
