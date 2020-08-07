@@ -18,3 +18,7 @@ Route::group(['prefix' => 'example-blog', 'as' => 'example.blog.'], function () 
 
     Route::get('/', 'ExampleBlogController@index');
 });
+
+Route::group(['prefix' => 'example-blog', 'as' => 'example-blog.'], function () {
+    Route::resource('posts', 'PostController')->middleware('auth');
+});
