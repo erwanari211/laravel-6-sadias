@@ -66,6 +66,7 @@ class MakePolicy extends Command
 
         $success = $this->makeFileFromStub($this->outputPath);
         if ($success) {
+            $this->registerPolicy();
             $this->info($this->fileType . ' created successfully.');
         }
     }
@@ -104,5 +105,42 @@ class MakePolicy extends Command
         }
 
         return $column;
+    }
+
+    public function registerPolicy()
+    {
+        $replaceData = $this->getReplaceData();
+
+        $modelClass = $replaceData['MODEL_CLASS'];
+        $modelNamespace = $replaceData['MODEL_CLASS_NAMESPACE'];
+        $policyClass = $replaceData['POLICY_CLASS'];
+        $policyNamespace = $replaceData['NAMESPACE'];
+
+        $model = "'{$modelNamespace}\\{$modelClass}'";
+        $policy = "'{$policyNamespace}\\{$policyClass}'";
+        $policyItem = "{$model} => {$policy},";
+
+        $authServiceProvideDirectory = $this->basepath.'app/Providers/';
+        $authServiceProvideFile = $authServiceProvideDirectory . 'AuthServiceProvider.php';
+        $isExists = $this->fileIsExists($authServiceProvideFile);
+        if ($isExists) {
+            $currentContent = File::get($authServiceProvideFile);
+
+            $policyAlreadyExists = false;
+            if (strpos($currentContent, $policyItem) !== false) {
+                $policyAlreadyExists = true;
+            }
+
+            if ($policyAlreadyExists) {
+                return;
+            }
+
+            $posStart = strpos($currentContent, 'protected $policies = [');
+            $posEnd = strpos($currentContent, '];', $posStart);
+
+            $policyItem = '    ' . $policyItem . "\n" . '    ';
+            $newContent = substr_replace($currentContent, $policyItem, $posEnd, 0);
+            File::put($authServiceProvideFile, $newContent);
+        }
     }
 }
