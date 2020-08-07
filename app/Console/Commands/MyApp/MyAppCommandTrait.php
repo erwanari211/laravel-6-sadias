@@ -62,6 +62,8 @@ trait MyAppCommandTrait
             'view' => 'resources/views/',
             'language' => 'resources/lang/',
             'route' => 'routes/',
+
+            'controller test' => 'tests/Feature/Http/Controllers/',
         ];
     }
 
