@@ -139,7 +139,7 @@ class MakeController extends Command
         if ($isExists) {
             $routeName = $this->data['ROUTE_NAME'];
             $controllerClass = $this->data['CONTROLLER_CLASS'];
-            $newResourceRoute = 'Route::resource(\''.$routeName.'\', \''.$controllerClass.'\');';
+            $newResourceRoute = 'Route::resource(\''.$routeName.'\', \''.$controllerClass.'\')';
 
             $currentContent = File::get($routeFile);
 
@@ -150,7 +150,8 @@ class MakeController extends Command
 
             if (!$routeAlreadyExists) {
                 $newContent = $currentContent;
-                $newContent .= "\n" . $newResourceRoute;
+                $newResourceRoute .= '->middleware(\'auth\')';
+                $newContent .= "\n" . $newResourceRoute . ';';
                 File::put($routeFile, $newContent);
             }
 
