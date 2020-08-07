@@ -122,7 +122,7 @@ class MakeFactory extends Command
                         'bigInteger', 'decimal', 'double', 'float',
                         'integer', 'mediumInteger', 'smallInteger',
                         'unsignedDecimal', 'unsignedInteger',
-                        'unsignedMediumInteger', 'unsignedSmallInteger'])) {
+                        'unsignedMediumInteger', 'unsignedSmallInteger', 'unsignedBigInteger'])) {
                         $fakeData = '$faker->numberBetween(1000, 9999)';
                     }
 
@@ -146,7 +146,8 @@ class MakeFactory extends Command
                     if (in_array($fieldType, [
                         'morphs', 'uuidMorphs',
                         'nullableMorphs', 'nullableUuidMorphs'])) {
-                        $fakeData = 'null';
+                        // $fakeData = 'null';
+                        continue;
                     }
 
                     if (in_array($fieldType, ['uuid'])) {
