@@ -188,6 +188,15 @@ class GenerateFiles extends Command
             '--debug' => $debug,
         ]);
 
+        $this->call('my_app:make_service_test', [
+            'name' => $name,
+            '--module' => $module,
+            '--file-settings' => $fileSettings,
+            '--output' => $output,
+            '--force' => $force,
+            '--debug' => $debug,
+        ]);
+
     }
 
 
