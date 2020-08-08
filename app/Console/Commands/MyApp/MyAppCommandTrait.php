@@ -65,6 +65,7 @@ trait MyAppCommandTrait
 
             'controller test' => 'tests/Feature/Http/Controllers/',
             'request test' => 'tests/Feature/Http/Requests/',
+            'model test' => 'tests/Unit/Models/',
         ];
     }
 

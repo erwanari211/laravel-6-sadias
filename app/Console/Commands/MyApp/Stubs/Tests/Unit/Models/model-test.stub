@@ -1,0 +1,32 @@
+<?php
+
+namespace Modules\ExampleBlog\Tests\Unit\Entities;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use $MODEL_CLASS_NAMESPACE$\$MODEL_CLASS$;
+use App\User;
+
+class $MODEL_TEST_CLASS$ extends TestCase
+{
+    use RefreshDatabase, WithFaker;
+
+    public $itemColumn;
+    public $itemUserColumn;
+    public $itemAttributes;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $attributes = [];
+
+        $this->itemUserColumn = '$ITEM_USER_COLUMN$';
+        $this->itemColumn = 'name';
+        $this->itemAttributes = $attributes;
+    }
+
+$MODEL_RELATIONS_TESTS$
+
+}
