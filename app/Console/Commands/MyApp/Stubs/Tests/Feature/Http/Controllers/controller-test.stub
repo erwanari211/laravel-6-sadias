@@ -25,7 +25,7 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
 
         $attributes = [];
 
-        $this->itemUserColumn = 'user_id';
+        $this->itemUserColumn = '$ITEM_USER_COLUMN$';
         $this->itemColumn = 'name';
         $this->itemAttributes = $attributes;
     }

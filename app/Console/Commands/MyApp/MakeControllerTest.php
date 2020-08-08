@@ -95,8 +95,19 @@ class MakeControllerTest extends Command
             'MODEL_VARIABLE' => $this->data['MODEL_VARIABLE'],
             'MODEL_VARIABLE_PLURAL' => $this->data['MODEL_VARIABLE_PLURAL'],
             'VIEW_PATH' => $this->data['VIEW_PATH'],
+            'ITEM_USER_COLUMN' => $this->getItemUserColumn(),
         ];
 
         return $replaceData;
+    }
+
+    public function getItemUserColumn()
+    {
+        $column = 'user_id';
+        if ($this->settings && isset($this->settings['policy']['column'])) {
+            $column = $this->settings['policy']['column'];
+        }
+
+        return $column;
     }
 }
