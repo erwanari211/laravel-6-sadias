@@ -2,8 +2,9 @@
 
 namespace Modules\ExampleBlog\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 use Modules\ExampleBlog\Models\Post;
+use Illuminate\Foundation\Http\FormRequest;
 
 class PostRequest extends FormRequest
 {
@@ -19,13 +20,14 @@ class PostRequest extends FormRequest
 
             'author_id' => 'required|integer',
             'title' => 'required|string',
-            'slug' => 'required|string',
+            'slug' => 'required|string|unique:example_blog_posts,slug',
             'content' => 'nullable',
 
         ];
 
         if (strtolower($method) == 'put') {
-            //
+            $item = $this->route('post');
+            $rules['slug'] = 'required|unique:example_blog_posts,slug,' . $item->id;
         }
 
         return $rules;
@@ -52,6 +54,10 @@ class PostRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        //
+        if ($this->has('slug')){
+            $this->merge([
+                'slug' => Str::slug($this->slug)
+            ]);
+        }
     }
 }
