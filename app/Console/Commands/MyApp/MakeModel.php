@@ -82,7 +82,7 @@ class MakeModel extends Command
             'MODEL_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
             'FILLABLE' => $this->getFillableFields(),
-            'RELATIONS' => $this->getReations(),
+            'RELATIONS' => $this->getRelations(),
             'PRESENTER_CLASS' => $this->data['PRESENTER_CLASS'],
             'PRESENTER_CLASS_NAMESPACE' => $this->pathToNamespace(
                 str_replace(
@@ -135,7 +135,7 @@ class MakeModel extends Command
     }
 
 
-    public function getReations()
+    public function getRelations()
     {
         $relations = '';
         if ($this->settings && isset($this->settings['relations'])) {
