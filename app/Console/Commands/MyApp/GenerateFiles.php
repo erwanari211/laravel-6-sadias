@@ -157,7 +157,7 @@ class GenerateFiles extends Command
             '--module' => $module,
             '--file-settings' => $fileSettings,
             '--output' => $output,
-            '--force' => 1,
+            '--force' => $force,
             '--debug' => $debug,
         ]);
 

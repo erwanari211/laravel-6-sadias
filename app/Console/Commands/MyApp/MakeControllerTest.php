@@ -19,7 +19,7 @@ class MakeControllerTest extends Command
                             {--force=0 : Force}
                             {--debug : Debug}';
 
-    protected $description = 'Create Custom Controller Tests';
+    protected $description = 'Create Custom Controller Test';
 
     protected $basepath;
     protected $fileType;
