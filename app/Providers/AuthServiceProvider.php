@@ -18,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
         'Modules\ExampleBlog\Models\Post' => 'Modules\ExampleBlog\Policies\PostPolicy',
         'Modules\ExampleBlog\Models\Comment' => 'Modules\ExampleBlog\Policies\CommentPolicy',
         'Modules\ExampleBlog\Models\Team' => 'Modules\ExampleBlog\Policies\TeamPolicy',
+        'Modules\ExampleBlog\Models\TeamMember' => 'Modules\ExampleBlog\Policies\TeamMemberPolicy',
     ];
 
     /**
