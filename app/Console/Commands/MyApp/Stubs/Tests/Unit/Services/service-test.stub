@@ -71,10 +71,10 @@ class $SERVICE_TEST_CLASS$ extends TestCase
         $$MODEL_VARIABLE_PLURAL$ = $service->getData();
 
         $$MODEL_VARIABLE_PLURAL$Array = $$MODEL_VARIABLE_PLURAL$->jsonSerialize();
-        $channelArray = $$MODEL_VARIABLE$->toArray();
+        $$MODEL_VARIABLE$Array = $$MODEL_VARIABLE$->toArray();
         $other$MODEL_VARIABLE$Array = $other$MODEL_VARIABLE$->toArray();
 
-        $this->assertContains($channelArray, $$MODEL_VARIABLE_PLURAL$Array);
+        $this->assertContains($$MODEL_VARIABLE$Array, $$MODEL_VARIABLE_PLURAL$Array);
         $this->assertNotContains($other$MODEL_VARIABLE$Array, $$MODEL_VARIABLE_PLURAL$Array);
 
         $this->assertCount(1, $$MODEL_VARIABLE_PLURAL$Array);

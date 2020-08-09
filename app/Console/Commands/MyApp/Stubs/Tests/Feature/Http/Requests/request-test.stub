@@ -20,8 +20,8 @@ class $REQUEST_TEST_CLASS$ extends TestCase
     {
         parent::setUp();
 
-        $this->setBaseRoute('example-blog.posts');
-        $this->setBaseModel(Post::class);
+        $this->setBaseRoute('$MODULE_ROUTE_NAME$$ROUTE_NAME$');
+        $this->setBaseModel($MODEL_CLASS$::class);
 
         $attributes = [];
 
