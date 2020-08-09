@@ -20,7 +20,7 @@ $RULES$
         ];
 
         if (strtolower($method) == 'put') {
-            //
+            // $item = $this->route('$MODEL_VARIABLE$');
         }
 
         return $rules;

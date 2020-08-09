@@ -150,8 +150,15 @@ class MakeRequestTest extends Command
                         $result .= $tab4 . "'passed' => false," . "\n";
                         $result .= $tab3 . "]," . "\n";
 
+                        $fieldData = $field;
                         $containNumeric = Str::contains($fieldRules, ['integer', 'numeric']);
-                        $fieldData = $containNumeric ? '99' : $field;
+                        if ($containNumeric) {
+                            $fieldData = 99;
+                        }
+                        $containBoolean = Str::contains($fieldRules, ['boolean']);
+                        if ($containBoolean) {
+                            $fieldData = 1;
+                        }
                         $result .= $tab3 . "'request_should_success_when_{$field}_is_provided' => [" . "\n";
                         $result .= $tab4 . "'field' => '{$field}'," . "\n";
                         $result .= $tab4 . "'data' => ['{$field}' => '{$fieldData}']," . "\n";

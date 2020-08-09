@@ -135,7 +135,7 @@ $UPDATE_ITEM_DATA_PROVIDER$
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
         $oldName = $$MODEL_VARIABLE$->{$this->itemColumn};
 
-        $this->updateItem($$MODEL_VARIABLE$->id);
+        $this->updateItem($$MODEL_VARIABLE$->id, $attributes);
 
         $$MODEL_VARIABLE$->refresh();
         $model = new $this->base_model;
