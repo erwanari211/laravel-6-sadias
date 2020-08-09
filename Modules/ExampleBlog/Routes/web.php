@@ -21,4 +21,5 @@ Route::group(['prefix' => 'example-blog', 'as' => 'example.blog.'], function () 
 
 Route::group(['prefix' => 'example-blog', 'as' => 'example-blog.'], function () {
     Route::resource('posts', 'PostController')->middleware('auth');
+    Route::resource('comments', 'CommentController')->middleware('auth');
 });
