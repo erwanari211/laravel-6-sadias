@@ -57,6 +57,7 @@ class MakePolicyTest extends Command
         $this->setData();
         $this->setOutputName();
         $this->setOutputPath();
+        $this->setOutputPathInRoot();
 
         $this->readFileSettings();
 

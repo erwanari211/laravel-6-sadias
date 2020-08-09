@@ -57,6 +57,7 @@ class MakeRequestTest extends Command
         $this->setData();
         $this->setOutputName();
         $this->setOutputPath();
+        $this->setOutputPathInRoot();
 
         $this->readFileSettings();
 
