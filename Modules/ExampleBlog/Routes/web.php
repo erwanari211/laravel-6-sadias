@@ -24,4 +24,5 @@ Route::group(['prefix' => 'example-blog', 'as' => 'example-blog.'], function () 
     Route::resource('comments', 'CommentController')->middleware('auth');
     Route::resource('teams', 'TeamController')->middleware('auth');
     Route::resource('team-members', 'TeamMemberController')->middleware('auth');
+    Route::resource('tags', 'TagController')->middleware('auth');
 });
