@@ -13,7 +13,7 @@ return [
             'no'      => 'No',
             'actions' => 'Pilihan',
         ],
-        'delete_confirmation' => 'Hapus Channel?',
+        'delete_confirmation' => 'Hapus Data?',
         'no_data' => 'Tidak ada data',
     ],
     'form' => [
