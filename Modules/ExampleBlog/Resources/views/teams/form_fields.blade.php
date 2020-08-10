@@ -1,4 +1,3 @@
-{!! Form::bsText('owner_id', null, ['label' => __('exampleblog::team.attributes.owner_id')]) !!}
 {!! Form::bsText('name', null, ['label' => __('exampleblog::team.attributes.name')]) !!}
 {!! Form::bsText('slug', null, ['label' => __('exampleblog::team.attributes.slug')]) !!}
 {!! Form::bsTextarea('description', null, ['label' => __('exampleblog::team.attributes.description')]) !!}

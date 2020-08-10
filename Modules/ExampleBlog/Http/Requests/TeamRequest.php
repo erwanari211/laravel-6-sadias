@@ -17,7 +17,6 @@ class TeamRequest extends FormRequest
         $method = request()->method();
         $rules = [
 
-            'owner_id' => 'required|integer',
             'name' => 'required|string',
             'slug' => 'required|string|unique:example_blog_teams,slug',
             'description' => 'nullable',

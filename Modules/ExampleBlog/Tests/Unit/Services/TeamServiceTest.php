@@ -106,7 +106,6 @@ class TeamServiceTest extends TestCase
         $this->signIn();
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $newName = $this->faker->sentence;
         $attributes[$this->itemColumn] = $newName;
 

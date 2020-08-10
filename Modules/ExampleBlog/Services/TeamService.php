@@ -60,7 +60,7 @@ class TeamService
 
     public function beforeCreate()
     {
-        //
+        $this->data['owner_id'] = auth()->user()->id;
     }
 
     public function beforeUpdate()

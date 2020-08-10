@@ -69,28 +69,6 @@ class TeamRequestTest extends TestCase
     {
         return [
 
-            'request_should_fail_when_no_owner_id_is_provided' => [
-                'field' => 'owner_id',
-                'data' => ['owner_id' => ''],
-                'passed' => false,
-            ],
-            'request_should_success_when_owner_id_is_provided' => [
-                'field' => 'owner_id',
-                'data' => ['owner_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_owner_id_value_is_not_integer' => [
-                'field' => 'owner_id',
-                'data' => ['owner_id' => 'not-integer'],
-                'passed' => false,
-            ],
-            'request_should_success_when_owner_id_value_is_not_integer' => [
-                'field' => 'owner_id',
-                'data' => ['owner_id' => '99'],
-                'passed' => true,
-            ],
-
             'request_should_fail_when_no_name_is_provided' => [
                 'field' => 'name',
                 'data' => ['name' => ''],
@@ -174,28 +152,6 @@ class TeamRequestTest extends TestCase
     public function updateItemDataProvider()
     {
         return [
-
-            'request_should_fail_when_no_owner_id_is_provided' => [
-                'field' => 'owner_id',
-                'data' => ['owner_id' => ''],
-                'passed' => false,
-            ],
-            'request_should_success_when_owner_id_is_provided' => [
-                'field' => 'owner_id',
-                'data' => ['owner_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_owner_id_value_is_not_integer' => [
-                'field' => 'owner_id',
-                'data' => ['owner_id' => 'not-integer'],
-                'passed' => false,
-            ],
-            'request_should_success_when_owner_id_value_is_not_integer' => [
-                'field' => 'owner_id',
-                'data' => ['owner_id' => '99'],
-                'passed' => true,
-            ],
 
             'request_should_fail_when_no_name_is_provided' => [
                 'field' => 'name',
