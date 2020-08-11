@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
 use Modules\ExampleBlog\Models\Post;
+use Modules\ExampleBlog\Models\Team;
 use Modules\ExampleBlog\Services\PostService;
 
 class PostServiceTest extends TestCase
@@ -52,6 +53,37 @@ class PostServiceTest extends TestCase
         $postArray = $post->toArray();
         // $this->assertContains($postArray, $postsArray);
         // $this->assertArrayHasKey('owner', $postsArray[0]);
+
+        $this->assertCount(1, $postsArray);
+        $this->assertEquals($postsArray[0][$this->itemUserColumn], $postArray[$this->itemUserColumn]);
+        $this->assertEquals($postsArray[0][$this->itemUserColumn], $this->user->id);
+        $this->assertEquals($postsArray[0][$this->itemColumn], $postArray[$this->itemColumn]);
+    }
+
+    /** @test */
+    public function it_can_fetch_team_posts()
+    {
+        $service = new PostService;
+        $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $attributes = $this->itemAttributes;
+        $attributes[$this->itemUserColumn] = $this->user->id;
+        $post = $this->newItem($attributes);
+
+        $attributes['postable_id'] = $team->id;
+        $attributes['postable_type'] = get_class($team);
+        $teamPost = $this->newItem($attributes);
+
+        $posts = $service->getTeamPosts($team);
+
+        $postsArray = $posts->jsonSerialize();
+        // $post->load('owner');
+        $postArray = $teamPost->toArray();
+        // $this->assertContains($postArray, $postsArray);
+        // $this->assertArrayHasKey('owner', $postsArray[0]);
+
+        $model = new $this->base_model;
+        $this->assertEquals(2, $model->all()->count());
 
         $this->assertCount(1, $postsArray);
         $this->assertEquals($postsArray[0][$this->itemUserColumn], $postArray[$this->itemUserColumn]);

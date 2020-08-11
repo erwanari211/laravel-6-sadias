@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
 use Modules\ExampleBlog\Models\Team;
+use Modules\ExampleBlog\Models\TeamMember;
+use Modules\ExampleBlog\Models\Post;
 
 class TeamPolicyTest extends TestCase
 {
@@ -77,5 +79,126 @@ class TeamPolicyTest extends TestCase
         $this->assertFalse($this->user->can('view', $team));
         $this->assertFalse($this->user->can('update', $team));
         $this->assertFalse($this->user->can('delete', $team));
+    }
+
+    public function prepareTeamPost($role = 'admin')
+    {
+        $user = create(User::class);
+        $team = create(Team::class, ['owner_id' => $user->id]);
+        $member = create(TeamMember::class, [
+            'user_id' => $user->id,
+            'team_id' => $team->id,
+            'role_name' => $role,
+        ]);
+
+        return compact('user', 'team', 'member');
+    }
+
+    /** @test */
+    public function member_can_view_team_posts()
+    {
+        $prepareData = $this->prepareTeamPost();
+        $user = $prepareData['user'];
+        $team = $prepareData['team'];
+
+        $this->signIn($user);
+        $this->assertTrue($user->can('viewTeamPosts', $team));
+    }
+
+    /** @test */
+    public function member_can_view_team_post()
+    {
+        $prepareData = $this->prepareTeamPost();
+        $user = $prepareData['user'];
+        $team = $prepareData['team'];
+
+        $this->signIn($user);
+        $this->assertTrue($user->can('viewTeamPost', $team));
+    }
+
+    /** @test */
+    public function member_can_create_team_post()
+    {
+        $prepareData = $this->prepareTeamPost();
+        $user = $prepareData['user'];
+        $team = $prepareData['team'];
+
+        $this->signIn($user);
+        $this->assertTrue($user->can('createTeamPost', $team));
+    }
+
+    /** @test */
+    public function member_can_edit_their_post()
+    {
+        $prepareData = $this->prepareTeamPost();
+        $user = $prepareData['user'];
+        $team = $prepareData['team'];
+
+        $post = create(Post::class, [
+            'author_id' => $user->id,
+            'postable_id' => $team->id,
+            'postable_type' => get_class($team),
+            'status' => 'draft',
+        ]);
+
+        $this->signIn($user);
+        $this->assertTrue($user->can('editTeamPost', [$team, $post]));
+    }
+
+    /** @test */
+    public function member_can_edit_other_post_if_role_is_admin()
+    {
+        $prepareData = $this->prepareTeamPost('admin');
+        $user = $prepareData['user'];
+        $team = $prepareData['team'];
+
+        $otherUser = create(User::class);
+        $post = create(Post::class, [
+            'author_id' => $otherUser->id,
+            'postable_id' => $team->id,
+            'postable_type' => get_class($team),
+            'status' => 'draft',
+        ]);
+
+        $this->signIn($user);
+        $this->assertTrue($user->can('editTeamPost', [$team, $post]));
+    }
+
+    /** @test */
+    public function member_can_edit_other_post_if_role_is_editor()
+    {
+        $prepareData = $this->prepareTeamPost('editor');
+        $user = $prepareData['user'];
+        $team = $prepareData['team'];
+
+        $otherUser = create(User::class);
+        $post = create(Post::class, [
+            'author_id' => $otherUser->id,
+            'postable_id' => $team->id,
+            'postable_type' => get_class($team),
+            'status' => 'draft',
+        ]);
+
+        $this->signIn($user);
+        $this->assertTrue($user->can('editTeamPost', [$team, $post]));
+    }
+
+    /** @test */
+    public function member_cannot_edit_other_post_if_role_is_author()
+    {
+        $prepareData = $this->prepareTeamPost('author');
+        $user = $prepareData['user'];
+        $team = $prepareData['team'];
+
+        $otherUser = create(User::class);
+        $post = create(Post::class, [
+            'author_id' => $otherUser->id,
+            'postable_id' => $team->id,
+            'postable_type' => get_class($team),
+            'status' => 'draft',
+        ]);
+
+        $this->signIn($user);
+        $this->assertTrue($user->can('editTeamPost', [$team, $post]));
     }
 }

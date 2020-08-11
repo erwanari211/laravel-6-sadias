@@ -11,6 +11,8 @@ class PostService
     public $model;
     public $perPage = 10;
     public $data;
+    public $publishForTeam = false;
+    public $team;
 
     public function __construct()
     {
@@ -59,16 +61,38 @@ class PostService
         return $item->delete();
     }
 
+    public function getTeamPosts($team)
+    {
+        $data = $this->model
+            ->where('postable_id', $team->id)
+            ->where('postable_type', get_class($team))
+            ->latest()
+            ->paginate($this->perPage);
+        return PostResource::collection($data);
+    }
+
     public function beforeCreate()
     {
         $user = auth()->user();
-        $this->data['postable_id'] = $user->id;
-        $this->data['postable_type'] = get_class($user);
+        $this->data['author_id'] = $user->id;
         $this->data['unique_code'] = Str::random();
+        if ($this->publishForTeam) {
+            $this->data['postable_id'] = $this->team->id;
+            $this->data['postable_type'] = get_class($this->team);
+        } else {
+            $this->data['postable_id'] = $user->id;
+            $this->data['postable_type'] = get_class($user);
+        }
     }
 
     public function beforeUpdate()
     {
         //
+    }
+
+    public function publishForTeam($team)
+    {
+        $this->publishForTeam = true;
+        $this->team = $team;
     }
 }

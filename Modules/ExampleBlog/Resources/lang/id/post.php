@@ -18,4 +18,14 @@ return [
         'status' => 'Status',
 
     ],
+
+    'form' => [
+        'dropdown' => [
+            'statuses' => [
+                'draft' => 'Draft',
+                'published' => 'Dipublish',
+                'archived' => 'Diarsipkan',
+            ]
+        ]
+    ]
 ];
