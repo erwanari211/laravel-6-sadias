@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'yes' => 'Ya',
+    'no' => 'Tidak',
     'crud' => [
         'index'  => 'List',
         'create' => 'Tambah',
