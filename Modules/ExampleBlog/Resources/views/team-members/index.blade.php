@@ -9,7 +9,7 @@
   @include('exampleblog::includes.messages')
 
   <div class="mb-4">
-    <a class="btn btn-primary" href="{{ route('example-blog.team-members.create') }}">
+    <a class="btn btn-primary" href="{{ route('example-blog.team-members.create', [$team->id]) }}">
       {{ __('my_app.crud.create') }}
     </a>
   </div>

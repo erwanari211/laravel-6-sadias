@@ -12,6 +12,7 @@
       'url' => '#',
       'method' => 'POST',
       'files' => false,
+      'onsubmit' => 'return false'
       ]) }}
       @include('exampleblog::team-members.form_fields', ['actionType' => 'show'])
     {{ Form::close() }}

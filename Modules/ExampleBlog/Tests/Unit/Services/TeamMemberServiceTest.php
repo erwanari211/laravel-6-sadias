@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
+use Modules\ExampleBlog\Models\Team;
 use Modules\ExampleBlog\Models\TeamMember;
 use Modules\ExampleBlog\Services\TeamMemberService;
 
@@ -35,10 +36,13 @@ class TeamMemberServiceTest extends TestCase
     /** @test */
     public function it_can_fetch_users_teamMembers()
     {
-        $service = new TeamMemberService;
         $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $service = new TeamMemberService($team);
+
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['team_id'] = $team->id;
         $teamMember = $this->newItem($attributes);
 
         $teamMembers = $service->getData();
@@ -58,17 +62,20 @@ class TeamMemberServiceTest extends TestCase
     /** @test */
     public function it_cannot_fetch_others_teamMembers()
     {
-        $service = new TeamMemberService;
         $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $service = new TeamMemberService($team);
+
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['team_id'] = $team->id;
         $teamMember = $this->newItem($attributes);
         // $teamMember->load('owner');
 
         $attributes = $this->itemAttributes;
         $otherteamMember = $this->newItem($attributes);
 
-        $teamMembers = $service->getData();
+        $teamMembers = $service->getData($team);
 
         $teamMembersArray = $teamMembers->jsonSerialize();
         $teamMemberArray = $teamMember->toArray();
@@ -84,8 +91,10 @@ class TeamMemberServiceTest extends TestCase
     /** @test */
     public function it_can_fetch_a_users_teamMember()
     {
-        $service = new TeamMemberService;
         $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $service = new TeamMemberService($team);
+
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
         $teamMember = $this->newItem($attributes);
@@ -102,67 +111,74 @@ class TeamMemberServiceTest extends TestCase
     /** @test */
     public function it_can_create_teamMember()
     {
-        $service = new TeamMemberService;
         $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $service = new TeamMemberService($team);
+
+        $newMember = create(User::class);
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
-        $newName = $this->faker->sentence;
-        $attributes[$this->itemColumn] = $newName;
-
+        $attributes['team_id'] = $team->id;
+        $attributes['email'] = $newMember->email;
+        $attributes['role_name'] = 'author';
         $data = make($this->base_model, $attributes);
 
         $teamMember = $service->create($data->toArray());
-
-        $this->assertEquals($teamMember[$this->itemUserColumn], $this->user->id);
-        $this->assertEquals($teamMember[$this->itemColumn], $newName);
+        $this->assertEquals($teamMember[$this->itemUserColumn], $newMember->id);
+        $this->assertEquals($teamMember[$this->itemColumn], 'author');
         $model = new $this->base_model;
         $this->assertDatabaseHas($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
-            $this->itemColumn => $newName
+            $this->itemUserColumn => $newMember->id,
+            $this->itemColumn => 'author'
         ]);
     }
 
     /** @test */
     public function it_can_update_teamMember()
     {
-        $service = new TeamMemberService;
         $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $service = new TeamMemberService($team);
 
+        $newMember = create(User::class);
+
+        $oldRole = 'author';
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['team_id'] = $team->id;
+        $attributes[$this->itemColumn] = $oldRole;
+        $attributes['user_id'] = $newMember->id;
+        $data = make($this->base_model, $attributes);
+
         $teamMember = $this->newItem($attributes);
 
-        $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
-        $newName = $this->faker->sentence;
-        $attributes[$this->itemColumn] = $newName;
-
+        $newRole = 'editor';
+        $attributes[$this->itemColumn] = $newRole;
         $data = make($this->base_model, $attributes);
-        $oldName = $teamMember->name;
-
         $teamMember = $service->update($teamMember, $data->toArray());
 
-        $this->assertNotEquals($teamMember[$this->itemColumn], $oldName);
-        $this->assertEquals($teamMember[$this->itemColumn], $newName);
+        $this->assertNotEquals($teamMember[$this->itemColumn], $oldRole);
+        $this->assertEquals($teamMember[$this->itemColumn], $newRole);
         $model = new $this->base_model;
         $this->assertDatabaseHas($model->getTable(), [
-            $this->itemColumn => $newName
+            $this->itemColumn => $newRole
         ]);
         $this->assertDatabaseMissing($model->getTable(), [
-            $this->itemColumn => $oldName
+            $this->itemColumn => $oldRole
         ]);
     }
 
     /** @test */
     public function it_can_delete_teamMember()
     {
-        $model = new $this->base_model;
-        $service = new TeamMemberService;
         $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $service = new TeamMemberService($team);
+        $model = new $this->base_model;
+
+        $newMember = create(User::class);
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes[$this->itemUserColumn] = $newMember->id;
         $teamMember = $this->newItem($attributes);
         $this->assertEquals(1, $model->all()->count());
         $oldName = $teamMember->{$this->itemColumn};
@@ -173,5 +189,48 @@ class TeamMemberServiceTest extends TestCase
         $this->assertDatabaseMissing($model->getTable(), [
             $this->itemColumn => $oldName
         ]);
+    }
+
+    /** @test */
+    public function it_cannot_create_new_team_member_if_already_exists()
+    {
+        $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $service = new TeamMemberService($team);
+        $model = new $this->base_model;
+
+        $newMember = create(User::class);
+        $attributes = $this->itemAttributes;
+        $attributes['team_id'] = $team->id;
+        $attributes['user_id'] = $newMember->id;
+        $attributes['role_name'] = 'author';
+        $teamMember = $this->newItem($attributes);
+        $this->assertEquals(1, $model->all()->count());
+
+        $attributes['email'] = $newMember->email;
+        $teamMember = $service->create($attributes);
+        $this->assertNotTrue($teamMember);
+        $this->assertEquals(1, $model->all()->count());
+        $this->assertNotEquals(2, $model->all()->count());
+    }
+
+    /** @test */
+    public function it_cannot_update_or_delete_owner()
+    {
+        $this->signIn();
+        $team = create(Team::class, ['owner_id' => $this->user->id]);
+        $service = new TeamMemberService($team);
+
+        $attributes = $this->itemAttributes;
+        $attributes['team_id'] = $team->id;
+        $attributes['user_id'] = $this->user->id;
+        $attributes['role_name'] = 'admin';
+        $teamMember = $this->newItem($attributes);
+
+        $isUpdated = $service->update($teamMember, $attributes);
+        $this->assertNotTrue($isUpdated);
+
+        $isDeleted = $service->delete($teamMember);
+        $this->assertNotTrue($isDeleted);
     }
 }

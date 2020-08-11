@@ -1,7 +1,11 @@
-{!! Form::bsText('user_id', null, ['label' => __('exampleblog::team_member.attributes.user_id')]) !!}
-{!! Form::bsText('team_id', null, ['label' => __('exampleblog::team_member.attributes.team_id')]) !!}
-{!! Form::bsText('role_name', null, ['label' => __('exampleblog::team_member.attributes.role_name')]) !!}
-{!! Form::bsNumber('is_active', null, ['label' => __('exampleblog::team_member.attributes.is_active')]) !!}
+@if(isset($actionType) && ($actionType === 'create' || $actionType === 'show'))
+  {!! Form::bsText('email', $teamMember->user->email ?? null, ['label' => __('exampleblog::team_member.attributes.email')]) !!}
+@endif
+@if(isset($actionType) && ($actionType === 'edit'))
+  {!! Form::bsText('email', $teamMember->user->email ?? null, ['label' => __('exampleblog::team_member.attributes.email'), 'disabled']) !!}
+@endif
+{!! Form::bsSelect('role_name', $dropdown['roles'], null, ['label' => __('exampleblog::team_member.attributes.role_name')]) !!}
+{!! Form::bsSelect('is_active', $dropdown['yes_no'], null, ['label' => __('exampleblog::team_member.attributes.is_active')]) !!}
 
 
 <div class="form-group">
@@ -17,7 +21,7 @@
     </button>
   @endif
 
-  <a class="btn btn-outline-secondary" href="{{ route('example-blog.team-members.index') }}">
+  <a class="btn btn-outline-secondary" href="{{ route('example-blog.team-members.index', [$team->id]) }}">
     {{ __('my_app.form.back') }}
   </a>
 </div>

@@ -33,7 +33,8 @@ class TeamMemberPolicy
 
     public function view(User $user, TeamMember $teamMember)
     {
-        return $teamMember->user_id == $user->id;
+        $team = $teamMember->team;
+        return $team->owner_id == $user->id;
     }
 
     public function create(User $user)
@@ -43,21 +44,25 @@ class TeamMemberPolicy
 
     public function update(User $user, TeamMember $teamMember)
     {
-        return $teamMember->user_id == $user->id;
+        $team = $teamMember->team;
+        return $team->owner_id == $user->id;
     }
 
     public function delete(User $user, TeamMember $teamMember)
     {
-        return $teamMember->user_id == $user->id;
+        $team = $teamMember->team;
+        return $team->owner_id == $user->id;
     }
 
     public function restore(User $user, TeamMember $teamMember)
     {
-        return $teamMember->user_id == $user->id;
+        $team = $teamMember->team;
+        return $team->owner_id == $user->id;
     }
 
     public function forceDelete(User $user, TeamMember $teamMember)
     {
-        return $teamMember->user_id == $user->id;
+        $team = $teamMember->team;
+        return $team->owner_id == $user->id;
     }
 }

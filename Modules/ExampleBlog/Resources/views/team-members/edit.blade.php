@@ -9,7 +9,7 @@
     @include('exampleblog::includes.messages')
 
     {{ Form::model($teamMember, [
-      'route' => ['example-blog.team-members.update', $teamMember->id],
+      'route' => ['example-blog.team-members.update', $team->id, $teamMember->id],
       'method' => 'PUT',
       'files' => false,
       ]) }}

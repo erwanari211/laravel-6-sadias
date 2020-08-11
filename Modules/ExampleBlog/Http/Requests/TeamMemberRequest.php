@@ -17,15 +17,15 @@ class TeamMemberRequest extends FormRequest
         $method = request()->method();
         $rules = [
 
-            'user_id' => 'required|integer',
-            'team_id' => 'required|integer',
-            'role_name' => 'required|string',
+            'email' => 'required|email|exists:users,email',
+            'role_name' => 'required|string|in:admin,editor,author',
             'is_active' => 'required|boolean',
 
         ];
 
         if (strtolower($method) == 'put') {
             // $item = $this->route('teamMember');
+            $rules['email'] = 'nullable';
         }
 
         return $rules;

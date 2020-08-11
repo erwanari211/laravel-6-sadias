@@ -5,8 +5,7 @@
         <th>{{ __('my_app.table.columns.no') }}</th>
         <th>{{ __('my_app.table.columns.actions') }}</th>
 
-                <th>{{ __('exampleblog::team_member.attributes.user_id') }}</th>
-                <th>{{ __('exampleblog::team_member.attributes.team_id') }}</th>
+                <th>{{ __('exampleblog::team_member.attributes.email') }}</th>
                 <th>{{ __('exampleblog::team_member.attributes.role_name') }}</th>
                 <th>{{ __('exampleblog::team_member.attributes.is_active') }}</th>
 
@@ -20,15 +19,15 @@
             <td>{{ $no }}</td>
             <td>
               <a class="btn btn-secondary"
-                href="{{ route('example-blog.team-members.show', [$teamMember->id]) }}">
+                href="{{ route('example-blog.team-members.show', [$team->id, $teamMember->id]) }}">
                 {{ __('my_app.crud.show') }}
               </a>
               <a class="btn btn-success"
-                href="{{ route('example-blog.team-members.edit', [$teamMember->id]) }}">
+                href="{{ route('example-blog.team-members.edit', [$team->id, $teamMember->id]) }}">
                 {{ __('my_app.crud.edit') }}
               </a>
               {{ Form::open([
-                'route' => ['example-blog.team-members.destroy', $teamMember->id],
+                'route' => ['example-blog.team-members.destroy', $team->id, $teamMember->id],
                 'method' => 'DELETE',
                 'files' => false,
                 'style' => 'display: inline'
@@ -40,8 +39,7 @@
               {{ Form::close() }}
             </td>
 
-                        <td>{{ $teamMember->user_id }}</td>
-                        <td>{{ $teamMember->team_id }}</td>
+                        <td>{{ $teamMember->user->email }}</td>
                         <td>{{ $teamMember->role_name }}</td>
                         <td>{{ $teamMember->is_active }}</td>
 

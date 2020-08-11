@@ -23,6 +23,7 @@ Route::group(['prefix' => 'example-blog/backend', 'as' => 'example-blog.'], func
     Route::resource('posts', 'PostController')->middleware('auth');
     Route::resource('comments', 'CommentController')->middleware('auth');
     Route::resource('teams', 'TeamController')->middleware('auth');
-    Route::resource('team-members', 'TeamMemberController')->middleware('auth');
+    // Route::resource('team-members', 'TeamMemberController')->middleware('auth');
+    Route::resource('teams/{team}/team-members', 'TeamMemberController')->middleware('auth');
     Route::resource('tags', 'TagController')->middleware('auth');
 });
