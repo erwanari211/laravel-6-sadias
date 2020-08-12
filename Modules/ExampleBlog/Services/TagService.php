@@ -10,6 +10,8 @@ class TagService
     public $model;
     public $perPage = 10;
     public $data;
+    public $tagOwner = 'user';
+    public $team;
 
     public function __construct()
     {
@@ -60,11 +62,27 @@ class TagService
 
     public function beforeCreate()
     {
-        //
+        $this->data['owner_id'] = auth()->user()->id;
+
+        if ($this->tagOwner == 'user') {
+            $this->data['ownerable_id'] = auth()->user()->id;
+            $this->data['ownerable_type'] = get_class(auth()->user());
+        }
+
+        if ($this->tagOwner == 'team') {
+            $this->data['ownerable_id'] = $this->team->id;
+            $this->data['ownerable_type'] = get_class($this->team);
+        }
     }
 
     public function beforeUpdate()
     {
         //
+    }
+
+    public function publishForTeam($team)
+    {
+        $this->tagOwner = 'team';
+        $this->team = $team;
     }
 }

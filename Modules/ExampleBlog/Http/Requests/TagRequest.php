@@ -2,8 +2,9 @@
 
 namespace Modules\ExampleBlog\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 use Modules\ExampleBlog\Models\Tag;
+use Illuminate\Foundation\Http\FormRequest;
 
 class TagRequest extends FormRequest
 {
@@ -17,7 +18,6 @@ class TagRequest extends FormRequest
         $method = request()->method();
         $rules = [
 
-            'owner_id' => 'required|integer',
             'name' => 'required|string',
             'slug' => 'required|string',
             'description' => 'nullable',
@@ -53,6 +53,10 @@ class TagRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        //
+        if ($this->has('slug')){
+            $this->merge([
+                'slug' => Str::slug($this->slug)
+            ]);
+        }
     }
 }

@@ -1,8 +1,7 @@
-{!! Form::bsText('owner_id', null, ['label' => __('exampleblog::tag.attributes.owner_id')]) !!}
 {!! Form::bsText('name', null, ['label' => __('exampleblog::tag.attributes.name')]) !!}
 {!! Form::bsText('slug', null, ['label' => __('exampleblog::tag.attributes.slug')]) !!}
 {!! Form::bsTextarea('description', null, ['label' => __('exampleblog::tag.attributes.description')]) !!}
-{!! Form::bsNumber('is_active', null, ['label' => __('exampleblog::tag.attributes.is_active')]) !!}
+{!! Form::bsSelect('is_active', $dropdown['yes_no'], null, ['label' => __('exampleblog::tag.attributes.is_active')]) !!}
 
 
 <div class="form-group">

@@ -94,6 +94,7 @@ class TagControllerTest extends TestCase
 
         $data = raw($this->base_model, $this->itemAttributes);
         unset($data[$this->itemUserColumn]);
+        unset($data['slug']);
         $response = $this->createItem($data);
 
         $model = new $this->base_model;
@@ -124,8 +125,11 @@ class TagControllerTest extends TestCase
     public function authenticated_user_can_view_a_tag()
     {
         $this->signIn();
-        $this->itemAttributes[$this->itemUserColumn] = $this->user->id;
-        $tag = $this->newItem($this->itemAttributes);
+        $attributes = $this->itemAttributes;
+        $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['ownerable_id'] = $this->user->id;
+        $attributes['ownerable_type'] = get_class($this->user);
+        $tag = $this->newItem($attributes);
 
         $response = $this->readItem($tag->id);
 

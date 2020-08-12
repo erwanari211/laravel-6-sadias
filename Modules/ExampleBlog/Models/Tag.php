@@ -23,6 +23,7 @@ class Tag extends Model
 
         'owner_id', 'name', 'slug',
         'description', 'is_active',
+        'ownerable_id', 'ownerable_type',
 
     ];
     // protected $hidden = [];
@@ -52,6 +53,11 @@ class Tag extends Model
     public function owner()
     {
         return $this->belongsTo('App\User', 'owner_id');
+    }
+
+    public function ownerable()
+    {
+        return $this->morphTo();
     }
 
 

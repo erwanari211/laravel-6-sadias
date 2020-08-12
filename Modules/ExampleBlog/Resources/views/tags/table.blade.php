@@ -5,7 +5,6 @@
         <th>{{ __('my_app.table.columns.no') }}</th>
         <th>{{ __('my_app.table.columns.actions') }}</th>
 
-                <th>{{ __('exampleblog::tag.attributes.owner_id') }}</th>
                 <th>{{ __('exampleblog::tag.attributes.name') }}</th>
                 <th>{{ __('exampleblog::tag.attributes.slug') }}</th>
                 <th>{{ __('exampleblog::tag.attributes.description') }}</th>
@@ -41,7 +40,6 @@
               {{ Form::close() }}
             </td>
 
-                        <td>{{ $tag->owner_id }}</td>
                         <td>{{ $tag->name }}</td>
                         <td>{{ $tag->slug }}</td>
                         <td>{{ $tag->description }}</td>

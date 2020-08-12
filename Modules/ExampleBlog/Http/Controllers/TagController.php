@@ -17,7 +17,14 @@ class TagController extends Controller
     public function __construct()
     {
         $this->service = new TagService;
-        $this->data = [];
+        $this->data = [
+            'dropdown' => [
+                'yes_no' => [
+                    1 => __('my_app.yes'),
+                    0 => __('my_app.no'),
+                ],
+            ],
+        ];
     }
 
     public function index()
@@ -31,7 +38,11 @@ class TagController extends Controller
     {
         $this->authorize('create', Tag::class);
         $tag = new Tag;
-        return view('exampleblog::tags.create', compact('tag'));
+        $dropdown = $this->data['dropdown'];
+        return view('exampleblog::tags.create', compact(
+            'tag',
+            'dropdown'
+        ));
     }
 
     public function store(TagRequest $request)
@@ -48,13 +59,21 @@ class TagController extends Controller
     public function show(Tag $tag)
     {
         $this->authorize('view', $tag);
-        return view('exampleblog::tags.show', compact('tag'));
+        $dropdown = $this->data['dropdown'];
+        return view('exampleblog::tags.show', compact(
+            'tag',
+            'dropdown'
+        ));
     }
 
     public function edit(Tag $tag)
     {
         $this->authorize('update', $tag);
-        return view('exampleblog::tags.edit', compact('tag'));
+        $dropdown = $this->data['dropdown'];
+        return view('exampleblog::tags.edit', compact(
+            'tag',
+            'dropdown'
+        ));
     }
 
     public function update(TagRequest $request, Tag $tag)
