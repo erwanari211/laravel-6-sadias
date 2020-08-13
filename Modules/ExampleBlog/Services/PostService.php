@@ -45,6 +45,7 @@ class PostService
         $this->beforeCreate();
         $item = $this->model;
         $item = $item->create($this->data);
+        $item->tags()->sync($data['tags']);
         return $item;
     }
 
@@ -53,6 +54,7 @@ class PostService
         $this->data = $data;
         $this->beforeUpdate();
         $item->update($this->data);
+        $item->tags()->sync($data['tags']);
         return $item;
     }
 

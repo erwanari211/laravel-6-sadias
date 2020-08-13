@@ -60,6 +60,11 @@ class Post extends Model
         return $this->morphTo();
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('Modules\ExampleBlog\Models\Tag', 'example_blog_post_tag');
+    }
+
 
     /*
     |--------------------------------------------------------------------------

@@ -16,8 +16,24 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->service = new PostService;
-        $this->data = [];
+        $this->middleware(function ($request, $next) {
+            $this->user = auth()->user();
+            $tags = $this->user->tags->pluck('name', 'id');
+
+            $this->service = new PostService;
+            $this->data = [
+                'dropdown' => [
+                    'statuses' => [
+                        'draft' =>  __('exampleblog::post.form.dropdown.statuses.draft'),
+                        'published' =>  __('exampleblog::post.form.dropdown.statuses.published'),
+                        'archived' =>  __('exampleblog::post.form.dropdown.statuses.archived'),
+                    ]
+                ],
+                'tags' => $tags,
+            ];
+
+            return $next($request);
+        });
     }
 
     public function index()
@@ -31,7 +47,13 @@ class PostController extends Controller
     {
         $this->authorize('create', Post::class);
         $post = new Post;
-        return view('exampleblog::posts.create', compact('post'));
+        $dropdown = $this->data['dropdown'];
+        $tags = $this->data['tags'];
+
+        return view('exampleblog::posts.create', compact(
+            'post',
+            'dropdown', 'tags'
+        ));
     }
 
     public function store(PostRequest $request)
@@ -48,13 +70,23 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $this->authorize('view', $post);
-        return view('exampleblog::posts.show', compact('post'));
+        $dropdown = $this->data['dropdown'];
+        $tags = $this->data['tags'];
+        return view('exampleblog::posts.show', compact(
+            'post',
+            'dropdown', 'tags'
+        ));
     }
 
     public function edit(Post $post)
     {
         $this->authorize('update', $post);
-        return view('exampleblog::posts.edit', compact('post'));
+        $dropdown = $this->data['dropdown'];
+        $tags = $this->data['tags'];
+        return view('exampleblog::posts.edit', compact(
+            'post',
+            'dropdown', 'tags'
+        ));
     }
 
     public function update(PostRequest $request, Post $post)

@@ -5,7 +5,6 @@
         <th>{{ __('my_app.table.columns.no') }}</th>
         <th>{{ __('my_app.table.columns.actions') }}</th>
 
-                <th>{{ __('exampleblog::post.attributes.author_id') }}</th>
                 <th>{{ __('exampleblog::post.attributes.unique_code') }}</th>
                 <th>{{ __('exampleblog::post.attributes.title') }}</th>
                 <th>{{ __('exampleblog::post.attributes.slug') }}</th>
@@ -42,7 +41,6 @@
               {{ Form::close() }}
             </td>
 
-                        <td>{{ $post->author_id }}</td>
                         <td>{{ $post->unique_code }}</td>
                         <td>{{ $post->title }}</td>
                         <td>{{ $post->slug }}</td>

@@ -27,6 +27,7 @@ class PostRequestTest extends TestCase
         $attributes = [
             'postable_id' => $user->id,
             'postable_type' => get_class($user),
+            'status' => 'published',
         ];
 
         $this->itemUserColumn = 'author_id';
@@ -73,59 +74,47 @@ class PostRequestTest extends TestCase
     {
         return [
 
-            'request_should_fail_when_no_author_id_is_provided' => [
-                'field' => 'author_id',
-                'data' => ['author_id' => ''],
-                'passed' => false,
-            ],
-            'request_should_success_when_author_id_is_provided' => [
-                'field' => 'author_id',
-                'data' => ['author_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_author_id_value_is_not_integer' => [
-                'field' => 'author_id',
-                'data' => ['author_id' => 'not-integer'],
-                'passed' => false,
-            ],
-            'request_should_success_when_author_id_value_is_not_integer' => [
-                'field' => 'author_id',
-                'data' => ['author_id' => '99'],
-                'passed' => true,
-            ],
-
             'request_should_fail_when_no_title_is_provided' => [
                 'field' => 'title',
-                'data' => ['title' => ''],
+                'data' => ['title' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_title_is_provided' => [
                 'field' => 'title',
-                'data' => ['title' => 'title'],
+                'data' => ['title' => 'title', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_slug_is_provided' => [
                 'field' => 'slug',
-                'data' => ['slug' => ''],
+                'data' => ['slug' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_slug_is_provided' => [
                 'field' => 'slug',
-                'data' => ['slug' => 'slug'],
+                'data' => ['slug' => 'slug', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
-            'request_should_fail_when_no_slug_is_not_unique' => [
-                'field' => 'slug',
-                'data' => ['slug' => 'old-slug'],
+            'request_should_fail_when_no_content_is_provided' => [
+                'field' => 'content',
+                'data' => ['content' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
-
-            'request_should_success_when_content_is_filled_or_not' => [
+            'request_should_success_when_content_is_provided' => [
                 'field' => 'content',
-                'data' => ['content' => ''],
+                'data' => ['content' => 'content', 'tags' => [1,2,3]],
+                'passed' => true,
+            ],
+
+            'request_should_fail_when_no_tags_is_provided' => [
+                'field' => 'tags',
+                'data' => [],
+                'passed' => false,
+            ],
+            'request_should_success_when_tags_is_provided' => [
+                'field' => 'tags',
+                'data' => ['tags' => [1,2,3]],
                 'passed' => true,
             ],
 
@@ -168,59 +157,36 @@ class PostRequestTest extends TestCase
     {
         return [
 
-            'request_should_fail_when_no_author_id_is_provided' => [
-                'field' => 'author_id',
-                'data' => ['author_id' => ''],
-                'passed' => false,
-            ],
-            'request_should_success_when_author_id_is_provided' => [
-                'field' => 'author_id',
-                'data' => ['author_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_author_id_value_is_not_integer' => [
-                'field' => 'author_id',
-                'data' => ['author_id' => 'not-integer'],
-                'passed' => false,
-            ],
-            'request_should_success_when_author_id_value_is_not_integer' => [
-                'field' => 'author_id',
-                'data' => ['author_id' => '99'],
-                'passed' => true,
-            ],
-
             'request_should_fail_when_no_title_is_provided' => [
                 'field' => 'title',
-                'data' => ['title' => ''],
+                'data' => ['title' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_title_is_provided' => [
                 'field' => 'title',
-                'data' => ['title' => 'title'],
+                'data' => ['title' => 'title', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_slug_is_provided' => [
                 'field' => 'slug',
-                'data' => ['slug' => ''],
+                'data' => ['slug' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_slug_is_provided' => [
                 'field' => 'slug',
-                'data' => ['slug' => 'slug'],
+                'data' => ['slug' => 'slug', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
-            'request_should_fail_when_no_slug_is_not_unique' => [
-                'field' => 'slug',
-                'data' => ['slug' => 'old-slug'],
+            'request_should_fail_when_no_content_is_provided' => [
+                'field' => 'content',
+                'data' => ['content' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
-
-            'request_should_success_when_content_is_filled_or_not' => [
+            'request_should_success_when_content_is_provided' => [
                 'field' => 'content',
-                'data' => ['content' => ''],
+                'data' => ['content' => 'content', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 

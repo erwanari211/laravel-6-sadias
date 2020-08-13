@@ -148,6 +148,7 @@ class PostServiceTest extends TestCase
 
         $data = make($this->base_model, $attributes);
 
+        $data['tags'] = [1,2,3];
         $post = $service->create($data->toArray());
 
         $this->assertEquals($post[$this->itemUserColumn], $this->user->id);
@@ -157,6 +158,9 @@ class PostServiceTest extends TestCase
             $this->itemUserColumn => $this->user->id,
             $this->itemColumn => $newName
         ]);
+
+        $tagCount = \DB::table('example_blog_post_tag')->where('post_id', $post->id)->count();
+        $this->assertEquals(3, $tagCount);
     }
 
     /** @test */

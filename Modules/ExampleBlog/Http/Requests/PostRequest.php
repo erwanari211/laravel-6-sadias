@@ -18,16 +18,18 @@ class PostRequest extends FormRequest
         $method = request()->method();
         $rules = [
 
-            'author_id' => 'required|integer',
             'title' => 'required|string',
-            'slug' => 'required|string|unique:example_blog_posts,slug',
-            'content' => 'nullable',
+            // 'slug' => 'required|string|unique:example_blog_posts,slug',
+            'slug' => 'required|string',
+            'content' => 'required|string',
+            'status' => 'required|in:draft,published,archived',
+            'tags' => 'present',
 
         ];
 
         if (strtolower($method) == 'put') {
             $item = $this->route('post');
-            $rules['slug'] = 'required|unique:example_blog_posts,slug,' . $item->id;
+            // $rules['slug'] = 'required|unique:example_blog_posts,slug,' . $item->id;
         }
 
         return $rules;

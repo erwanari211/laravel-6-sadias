@@ -1,9 +1,8 @@
-{!! Form::bsText('author_id', null, ['label' => __('exampleblog::post.attributes.author_id')]) !!}
-{!! Form::bsText('unique_code', null, ['label' => __('exampleblog::post.attributes.unique_code')]) !!}
 {!! Form::bsText('title', null, ['label' => __('exampleblog::post.attributes.title')]) !!}
 {!! Form::bsText('slug', null, ['label' => __('exampleblog::post.attributes.slug')]) !!}
 {!! Form::bsTextarea('content', null, ['label' => __('exampleblog::post.attributes.content')]) !!}
-{!! Form::bsText('status', null, ['label' => __('exampleblog::post.attributes.status')]) !!}
+{!! Form::bsSelect('status', $dropdown['statuses'], null, ['label' => __('exampleblog::post.attributes.status')]) !!}
+{!! Form::bsSelect('tags[]', $tags, null, ['label' => __('exampleblog::post.attributes.status'), 'multiple']) !!}
 
 
 <div class="form-group">

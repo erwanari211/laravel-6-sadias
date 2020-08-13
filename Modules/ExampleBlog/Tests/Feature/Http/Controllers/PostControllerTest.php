@@ -27,6 +27,7 @@ class PostControllerTest extends TestCase
         $attributes = [
             'postable_id' => $user->id,
             'postable_type' => get_class($user),
+            'status' => 'published'
         ];
 
         $this->itemUserColumn = 'author_id';
@@ -95,12 +96,14 @@ class PostControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('exampleblog::posts.create');
 		$response->assertViewHas('post');
+		$response->assertViewHas('tags');
 
+        $this->itemAttributes['tags'] = [1,2,3];
         $data = raw($this->base_model, $this->itemAttributes);
         unset($data[$this->itemUserColumn]);
         $response = $this->createItem($data);
 
-        $attributes = collect($data)->only(['title', 'slug', 'content']);
+        $attributes = collect($data)->only(['title', 'content']);
         $model = new $this->base_model;
         $this->assertEquals(1, $model->all()->count());
         $this->assertDatabaseHas($model->getTable(), $attributes->toArray());
@@ -137,6 +140,7 @@ class PostControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('exampleblog::posts.show');
 		$response->assertViewHas('post');
+		$response->assertViewHas('tags');
     }
 
     /** @test */
@@ -179,7 +183,9 @@ class PostControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('exampleblog::posts.edit');
 		$response->assertViewHas('post');
+		$response->assertViewHas('tags');
 
+        $post->tags = [1,2,3];
         $response = $this->updateItem($post->id, $post->toArray());
 
         $model = new $this->base_model;
