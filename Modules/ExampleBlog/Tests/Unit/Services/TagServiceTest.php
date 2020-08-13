@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
 use Modules\ExampleBlog\Models\Tag;
 use Modules\ExampleBlog\Services\TagService;
+use Modules\ExampleBlog\Models\Team;
+use Modules\ExampleBlog\Models\TeamMember;
 
 class TagServiceTest extends TestCase
 {
@@ -42,6 +44,39 @@ class TagServiceTest extends TestCase
         $tag = $this->newItem($attributes);
 
         $tags = $service->getData();
+
+        $tagsArray = $tags->jsonSerialize();
+        // $tag->load('owner');
+        $tagArray = $tag->toArray();
+        // $this->assertContains($tagArray, $tagsArray);
+        // $this->assertArrayHasKey('owner', $tagsArray[0]);
+
+        $this->assertCount(1, $tagsArray);
+        $this->assertEquals($tagsArray[0][$this->itemUserColumn], $tagArray[$this->itemUserColumn]);
+        $this->assertEquals($tagsArray[0][$this->itemUserColumn], $this->user->id);
+        $this->assertEquals($tagsArray[0][$this->itemColumn], $tagArray[$this->itemColumn]);
+    }
+
+    /** @test */
+    public function it_can_fetch_team_tags()
+    {
+        $service = new TagService;
+        $this->signIn();
+
+        $team = create(Team::class, ['owner_id' => $this->user]);
+        $teamMember = create(TeamMember::class, [
+            'user_id' => $this->user->id,
+            'team_id' => $team->id,
+            'role_name' => 'admin',
+        ]);
+
+        $attributes = $this->itemAttributes;
+        $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['ownerable_id'] = $team->id;
+        $attributes['ownerable_type'] = get_class($team);
+        $tag = $this->newItem($attributes);
+
+        $tags = $service->getTeamTags($team);
 
         $tagsArray = $tags->jsonSerialize();
         // $tag->load('owner');

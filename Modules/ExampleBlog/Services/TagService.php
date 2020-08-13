@@ -27,6 +27,16 @@ class TagService
         return TagResource::collection($data);
     }
 
+    public function getTeamTags($team)
+    {
+        $data = $this->model
+            ->where('ownerable_id', $team->id)
+            ->where('ownerable_type', get_class($team))
+            ->latest()
+            ->paginate($this->perPage);
+        return TagResource::collection($data);
+    }
+
     public function getItem($id)
     {
         if(is_numeric($id)){
@@ -84,5 +94,13 @@ class TagService
     {
         $this->tagOwner = 'team';
         $this->team = $team;
+    }
+
+    public function setTagOwner($ownerType = 'user', $item = null)
+    {
+        $this->tagOwner = $ownerType;
+        if ($ownerType !== 'user') {
+            $this->$ownerType = $item;
+        }
     }
 }
