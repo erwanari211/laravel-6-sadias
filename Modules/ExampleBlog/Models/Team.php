@@ -59,6 +59,11 @@ class Team extends Model
         return $this->morphMany('Modules\ExampleBlog\Models\Post', 'postable');
     }
 
+    public function tags()
+    {
+        return $this->morphMany('Modules\ExampleBlog\Models\Tag', 'ownerable');
+    }
+
     public function teamMembers()
     {
         return $this->hasMany('Modules\ExampleBlog\Models\TeamMember');

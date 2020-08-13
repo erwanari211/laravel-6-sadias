@@ -2,7 +2,7 @@
 {!! Form::bsText('slug', null, ['label' => __('exampleblog::post.attributes.slug')]) !!}
 {!! Form::bsTextarea('content', null, ['label' => __('exampleblog::post.attributes.content')]) !!}
 {!! Form::bsSelect('status', $dropdown['statuses'], null, ['label' => __('exampleblog::post.attributes.status')]) !!}
-
+{!! Form::bsSelect('tags[]', $tags, null, ['label' => __('exampleblog::post.attributes.status'), 'multiple']) !!}
 
 <div class="form-group">
   @if(isset($actionType) && $actionType === 'create')

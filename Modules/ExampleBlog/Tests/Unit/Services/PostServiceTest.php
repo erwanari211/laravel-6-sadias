@@ -181,6 +181,7 @@ class PostServiceTest extends TestCase
         $data = make($this->base_model, $attributes);
         $oldName = $post->name;
 
+        $data->tags = [1,2,3];
         $post = $service->update($post, $data->toArray());
 
         $this->assertNotEquals($post[$this->itemColumn], $oldName);
@@ -213,5 +214,49 @@ class PostServiceTest extends TestCase
         $this->assertDatabaseMissing($model->getTable(), [
             $this->itemColumn => $oldName
         ]);
+    }
+
+    /** @test */
+    public function it_can_delete_post_and_also_delete_its_tags()
+    {
+        // $model = new $this->base_model;
+        // $service = new PostService;
+        // $this->signIn();
+
+        // $attributes = $this->itemAttributes;
+        // $attributes[$this->itemUserColumn] = $this->user->id;
+        // $post = $this->newItem($attributes);
+        // $this->assertEquals(1, $model->all()->count());
+        // $oldName = $post->{$this->itemColumn};
+
+        // $service->delete($post);
+
+        // $this->assertEquals(0, $model->all()->count());
+        // $this->assertDatabaseMissing($model->getTable(), [
+        //     $this->itemColumn => $oldName
+        // ]);
+
+        $model = new $this->base_model;
+        $service = new PostService;
+        $this->signIn();
+
+        $attributes = $this->itemAttributes;
+        $attributes[$this->itemUserColumn] = $this->user->id;
+        $newName = $this->faker->sentence;
+        $attributes[$this->itemColumn] = $newName;
+
+        $data = make($this->base_model, $attributes);
+
+        $data['tags'] = [1,2,3];
+        $post = $service->create($data->toArray());
+
+        $tagCount = \DB::table('example_blog_post_tag')->where('post_id', $post->id)->count();
+        $this->assertEquals(3, $tagCount);
+
+        $service->delete($post);
+
+        $this->assertEquals(0, $model->all()->count());
+        $tagCount = \DB::table('example_blog_post_tag')->where('post_id', $post->id)->count();
+        $this->assertEquals(0, $tagCount);
     }
 }

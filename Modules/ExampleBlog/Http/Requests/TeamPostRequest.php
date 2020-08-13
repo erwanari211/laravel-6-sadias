@@ -22,6 +22,7 @@ class TeamPostRequest extends FormRequest
             'slug' => 'required|string',
             'content' => 'required|string',
             'status' => 'required|in:draft,published,archived',
+            'tags' => 'present',
 
         ];
 

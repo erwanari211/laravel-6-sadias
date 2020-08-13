@@ -60,6 +60,7 @@ class PostService
 
     public function delete($item)
     {
+        $item->tags()->sync([]);
         return $item->delete();
     }
 

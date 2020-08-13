@@ -10,6 +10,7 @@ use Modules\ExampleBlog\Models\Team;
 use Modules\ExampleBlog\Models\TeamMember;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use DB;
 
 class TeamPostControllerTest extends TestCase
 {
@@ -52,7 +53,8 @@ class TeamPostControllerTest extends TestCase
     /** @test */
     public function guest_cannot_read_posts()
     {
-        $post = create($this->base_model, $this->itemAttributes);
+        $attributes = $this->itemAttributes;
+        $post = create($this->base_model, $attributes);
 
         $response = $this->readAllItems([$this->team->id]);
 
@@ -127,9 +129,13 @@ class TeamPostControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('exampleblog::team-posts.create');
 		$response->assertViewHas('post');
+		$response->assertViewHas('tags');
+		$response->assertViewHas('dropdown');
 
-        $data = raw($this->base_model, $this->itemAttributes);
+        $attributes = $this->itemAttributes;
+        $data = raw($this->base_model, $attributes);
         $data['status'] = 'draft';
+        $data['tags'] = [1,2,3];
         unset($data[$this->itemUserColumn]);
         $response = $this->createItem($data, [$this->team->id]);
 
@@ -138,6 +144,10 @@ class TeamPostControllerTest extends TestCase
         $model = new $this->base_model;
         $this->assertEquals(1, $model->all()->count());
         $this->assertDatabaseHas($model->getTable(), $attributes->toArray());
+
+        $post = Post::first();
+        $tagCount = \DB::table('example_blog_post_tag')->where('post_id', $post->id)->count();
+        $this->assertEquals(3, $tagCount);
 
         // $response->assertSessionHas(['successMessage']);
         // $response->assertSessionHas('successMessage', __('my_app.messages.data_created'));
@@ -165,7 +175,6 @@ class TeamPostControllerTest extends TestCase
         $this->signIn($this->user);
         $this->itemAttributes[$this->itemUserColumn] = $this->user->id;
         $post = $this->newItem($this->itemAttributes);
-        dump($post);
 
         $response = $this->readItem([$this->team->id, $post->id]);
 
@@ -187,6 +196,8 @@ class TeamPostControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('exampleblog::team-posts.show');
 		$response->assertViewHas('post');
+		$response->assertViewHas('dropdown');
+		$response->assertViewHas('tags');
     }
 
     /** @test */
@@ -230,7 +241,10 @@ class TeamPostControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('exampleblog::team-posts.edit');
 		$response->assertViewHas('post');
+		$response->assertViewHas('dropdown');
+		$response->assertViewHas('tags');
 
+        $post->tags = [1,2,3];
         $response = $this->updateItem([$this->team->id, $post->id], $post->toArray());
 
         $model = new $this->base_model;
@@ -269,6 +283,7 @@ class TeamPostControllerTest extends TestCase
         ]);
         $this->signIn($admin);
 
+        $post->tags = [1,2,3];
         $response = $this->updateItem([$this->team->id, $post->id], $post->toArray());
 
         $response->assertSessionHas(['flash_notification']);
@@ -293,6 +308,7 @@ class TeamPostControllerTest extends TestCase
         ]);
         $this->signIn($editor);
 
+        $post->tags = [1,2,3];
         $response = $this->updateItem([$this->team->id, $post->id], $post->toArray());
 
         $response->assertSessionHas(['flash_notification']);

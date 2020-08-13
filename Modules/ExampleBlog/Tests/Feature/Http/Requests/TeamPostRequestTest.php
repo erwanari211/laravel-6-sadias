@@ -89,45 +89,56 @@ class TeamPostRequestTest extends TestCase
 
             'request_should_fail_when_no_title_is_provided' => [
                 'field' => 'title',
-                'data' => ['title' => ''],
+                'data' => ['title' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_title_is_provided' => [
                 'field' => 'title',
-                'data' => ['title' => 'title'],
+                'data' => ['title' => 'title', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_slug_is_provided' => [
                 'field' => 'slug',
-                'data' => ['slug' => ''],
+                'data' => ['slug' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_slug_is_provided' => [
                 'field' => 'slug',
-                'data' => ['slug' => 'slug'],
+                'data' => ['slug' => 'slug', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_content_is_provided' => [
                 'field' => 'content',
-                'data' => ['content' => ''],
+                'data' => ['content' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_content_is_provided' => [
                 'field' => 'content',
-                'data' => ['content' => 'content'],
+                'data' => ['content' => 'content', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
             'request_should_fail_when_status_is_valid' => [
                 'field' => 'status',
-                'data' => ['status' => 'not-valid'],
+                'data' => ['status' => 'not-valid', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_status_is_valid' => [
                 'field' => 'status',
-                'data' => ['status' => 'published'],
+                'data' => ['status' => 'published', 'tags' => [1,2,3]],
+                'passed' => true,
+            ],
+
+            'request_should_fail_when_no_tags_is_provided' => [
+                'field' => 'tags',
+                'data' => [],
+                'passed' => false,
+            ],
+            'request_should_success_when_tags_is_provided' => [
+                'field' => 'tags',
+                'data' => ['tags' => [1,2,3]],
                 'passed' => true,
             ],
 
@@ -172,45 +183,56 @@ class TeamPostRequestTest extends TestCase
 
             'request_should_fail_when_no_title_is_provided' => [
                 'field' => 'title',
-                'data' => ['title' => ''],
+                'data' => ['title' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_title_is_provided' => [
                 'field' => 'title',
-                'data' => ['title' => 'title'],
+                'data' => ['title' => 'title', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_slug_is_provided' => [
                 'field' => 'slug',
-                'data' => ['slug' => ''],
+                'data' => ['slug' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_slug_is_provided' => [
                 'field' => 'slug',
-                'data' => ['slug' => 'slug'],
+                'data' => ['slug' => 'slug', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_content_is_provided' => [
                 'field' => 'content',
-                'data' => ['content' => ''],
+                'data' => ['content' => '', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_content_is_provided' => [
                 'field' => 'content',
-                'data' => ['content' => 'content'],
+                'data' => ['content' => 'content', 'tags' => [1,2,3]],
                 'passed' => true,
             ],
 
             'request_should_fail_when_status_is_valid' => [
                 'field' => 'status',
-                'data' => ['status' => 'not-valid'],
+                'data' => ['status' => 'not-valid', 'tags' => [1,2,3]],
                 'passed' => false,
             ],
             'request_should_success_when_status_is_valid' => [
                 'field' => 'status',
-                'data' => ['status' => 'published'],
+                'data' => ['status' => 'published', 'tags' => [1,2,3]],
+                'passed' => true,
+            ],
+
+            'request_should_fail_when_no_tags_is_provided' => [
+                'field' => 'tags',
+                'data' => [],
+                'passed' => false,
+            ],
+            'request_should_success_when_tags_is_provided' => [
+                'field' => 'tags',
+                'data' => ['tags' => [1,2,3]],
                 'passed' => true,
             ],
 
@@ -225,6 +247,7 @@ class TeamPostRequestTest extends TestCase
 
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['tags'] = [1,2,3];
         $this->createItem($attributes, [$this->team->id]);
 
         $model = new $this->base_model;
@@ -251,6 +274,7 @@ class TeamPostRequestTest extends TestCase
         $post = $this->newItem($attributes);
         $oldName = $post->{$this->itemColumn};
 
+        $attributes['tags'] = [1,2,3];
         $this->updateItem([$this->team->id, $post->id], $attributes);
 
         $post->refresh();

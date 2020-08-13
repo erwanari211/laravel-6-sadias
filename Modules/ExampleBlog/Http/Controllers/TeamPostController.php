@@ -18,6 +18,10 @@ class TeamPostController extends Controller
     public function __construct()
     {
         $this->service = new PostService;
+
+        $teamId = request()->route('team');
+        $team = Team::find($teamId);
+        $tags = $team->tags->pluck('name', 'id');
         $this->data = [
             'dropdown' => [
                 'statuses' => [
@@ -25,7 +29,8 @@ class TeamPostController extends Controller
                     'published' =>  __('exampleblog::post.form.dropdown.statuses.published'),
                     'archived' =>  __('exampleblog::post.form.dropdown.statuses.archived'),
                 ]
-            ]
+            ],
+            'tags' => $tags,
         ];
     }
 
@@ -43,9 +48,10 @@ class TeamPostController extends Controller
         $this->authorize('createTeamPost', $team);
         $post = new Post;
         $dropdown = $this->data['dropdown'];
+        $tags = $this->data['tags'];
         return view('exampleblog::team-posts.create', compact(
             'team', 'post',
-            'dropdown'
+            'dropdown', 'tags'
         ));
     }
 
@@ -65,9 +71,10 @@ class TeamPostController extends Controller
     {
         $this->authorize('viewTeamPost', $team);
         $dropdown = $this->data['dropdown'];
+        $tags = $this->data['tags'];
         return view('exampleblog::team-posts.show', compact(
             'post', 'team',
-            'dropdown'
+            'dropdown', 'tags'
         ));
     }
 
@@ -75,9 +82,10 @@ class TeamPostController extends Controller
     {
         $this->authorize('editTeamPost', [$team, $post]);
         $dropdown = $this->data['dropdown'];
+        $tags = $this->data['tags'];
         return view('exampleblog::team-posts.edit', compact(
             'team', 'post',
-            'dropdown'
+            'dropdown', 'tags'
         ));
     }
 
