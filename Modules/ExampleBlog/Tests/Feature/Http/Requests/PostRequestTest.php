@@ -33,6 +33,8 @@ class PostRequestTest extends TestCase
         $this->itemUserColumn = 'author_id';
         $this->itemColumn = 'title';
         $this->itemAttributes = $attributes;
+
+        $this->user = $user;
     }
 
     private function getItemFields($overrides = [])
@@ -197,10 +199,11 @@ class PostRequestTest extends TestCase
     /** @test */
     public function authenticated_user_can_create_post()
     {
-        $this->signIn();
+        $this->signIn($this->user);
 
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['tags'] = [];
         $this->createItem($attributes);
 
         $model = new $this->base_model;
@@ -220,14 +223,18 @@ class PostRequestTest extends TestCase
     /** @test */
     public function authenticated_user_can_update_post()
     {
-        $this->signIn();
+        $this->signIn($this->user);
 
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
         $post = $this->newItem($attributes);
         $oldName = $post->{$this->itemColumn};
 
-        $this->updateItem($post->id, [$this->itemUserColumn => $this->user->id]);
+        $this->updateItem($post->id, [
+            $this->itemUserColumn => $this->user->id,
+            'status' => 'published',
+            'tags' => []
+        ]);
 
         $post->refresh();
         $model = new $this->base_model;

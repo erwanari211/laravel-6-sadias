@@ -33,6 +33,8 @@ class PostControllerTest extends TestCase
         $this->itemUserColumn = 'author_id';
         $this->itemColumn = 'title';
         $this->itemAttributes = $attributes;
+
+        $this->user = $user;
     }
 
     /** @test */
@@ -51,8 +53,9 @@ class PostControllerTest extends TestCase
     /** @test */
     public function authenticated_user_can_read_all_their_posts()
     {
-        $this->signIn();
+        $this->signIn($this->user);
         $this->itemAttributes[$this->itemUserColumn] = $this->user->id;
+        $attributes = $this->itemAttributes;
         $post = $this->newItem($this->itemAttributes);
 
         $response = $this->readAllItems();
