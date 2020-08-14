@@ -22,7 +22,10 @@ class PostService
     public function getData()
     {
         $user = auth()->user();
-        $data = $this->model->where('author_id', $user->id)
+        $data = $this->model
+            // ->where('author_id', $user->id)
+            ->where('postable_id', $user->id)
+            ->where('postable_type', get_class($user))
             ->latest()
             ->paginate($this->perPage);
         return PostResource::collection($data);
