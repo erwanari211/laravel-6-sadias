@@ -5,6 +5,7 @@ namespace $NAMESPACE$;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use $MODEL_CLASS_NAMESPACE$\$MODEL_CLASS$;
+use Faker\Factory as Faker;
 
 class $SEEDER_CLASS$ extends Seeder
 {
@@ -16,6 +17,7 @@ class $SEEDER_CLASS$ extends Seeder
     public function run()
     {
         Model::unguard();
+        $faker = Faker::create();
 
         factory($MODEL_CLASS$::class, 10)->create();
     }
