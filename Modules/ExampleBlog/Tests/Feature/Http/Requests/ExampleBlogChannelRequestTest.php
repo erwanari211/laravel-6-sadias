@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\ExampleBlog\Tests\Feature\Http\Requests;
+namespace Modules\ExampleBlog\tests\Feature\Http\Requests;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

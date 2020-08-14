@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\ExampleBlog\Tests\Feature\Http\Controllers\Backend;
+namespace Modules\ExampleBlog\tests\Feature\Http\Controllers\Backend;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

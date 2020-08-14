@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\ExampleBlog\Tests\Unit\Entities;
+namespace Modules\ExampleBlog\tests\Unit\Entities;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
