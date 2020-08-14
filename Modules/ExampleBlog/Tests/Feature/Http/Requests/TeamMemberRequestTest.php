@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
+use Modules\ExampleBlog\Models\Team;
 use Modules\ExampleBlog\Models\TeamMember;
 
 class TeamMemberRequestTest extends TestCase
@@ -23,11 +24,26 @@ class TeamMemberRequestTest extends TestCase
         $this->setBaseRoute('example-blog.team-members');
         $this->setBaseModel(TeamMember::class);
 
-        $attributes = [];
+        $user = create(User::class);
+        $team = create(Team::class, ['owner_id' => $user->id]);
+        $teamMember = create(TeamMember::class, [
+            'user_id' => $user->id,
+            'team_id' => $team->id,
+            'role_name' => 'admin',
+        ]);
+
+        $attributes = [
+            'team_id' => $team->id,
+            'role_name' => 'admin',
+        ];
 
         $this->itemUserColumn = 'user_id';
         $this->itemColumn = 'role_name';
         $this->itemAttributes = $attributes;
+
+        $this->user = $user;
+        $this->team = $team;
+        $this->teamMember = $teamMember;
     }
 
     private function getItemFields($overrides = [])
@@ -44,10 +60,13 @@ class TeamMemberRequestTest extends TestCase
      */
     public function it_validate_store_teamMember_request($field, $formFields, $shouldPass = false)
     {
-        $this->signIn();
+        $user = create(User::class, ['email' => 'newUser@app.com']);
+        $this->newUser = $user;
+
+        $this->signIn($this->user);
         $this->beforeValidateStoreRequest();
 
-        $response = $this->createItem($this->getItemFields($formFields));
+        $response = $this->createItem($this->getItemFields($formFields), [$this->team->id]);
 
         if (!$shouldPass) {
             $response->assertSessionHasErrors([$field]);
@@ -65,69 +84,46 @@ class TeamMemberRequestTest extends TestCase
     {
         return [
 
-            'request_should_fail_when_no_user_id_is_provided' => [
-                'field' => 'user_id',
-                'data' => ['user_id' => ''],
+            'request_should_fail_when_no_email_is_provided' => [
+                'field' => 'email',
+                'data' => ['email' => ''],
                 'passed' => false,
             ],
-            'request_should_success_when_user_id_is_provided' => [
-                'field' => 'user_id',
-                'data' => ['user_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_user_id_value_is_not_integer' => [
-                'field' => 'user_id',
-                'data' => ['user_id' => 'not-integer'],
+            'request_should_fail_when_invalid_email_is_provided' => [
+                'field' => 'email',
+                'data' => ['email' => 'nottvalid-email'],
                 'passed' => false,
             ],
-            'request_should_success_when_user_id_value_is_not_integer' => [
-                'field' => 'user_id',
-                'data' => ['user_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_no_team_id_is_provided' => [
-                'field' => 'team_id',
-                'data' => ['team_id' => ''],
+            'request_should_fail_when_email_not_exists_in_table' => [
+                'field' => 'email',
+                'data' => ['email' => 'randomemail@app.com'],
                 'passed' => false,
             ],
-            'request_should_success_when_team_id_is_provided' => [
-                'field' => 'team_id',
-                'data' => ['team_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_team_id_value_is_not_integer' => [
-                'field' => 'team_id',
-                'data' => ['team_id' => 'not-integer'],
-                'passed' => false,
-            ],
-            'request_should_success_when_team_id_value_is_not_integer' => [
-                'field' => 'team_id',
-                'data' => ['team_id' => '99'],
+            'request_should_success_when_email_is_provided_and_exists_in_table' => [
+                'field' => 'email',
+                'data' => ['email' => 'newUser@app.com'],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_role_name_is_provided' => [
                 'field' => 'role_name',
-                'data' => ['role_name' => ''],
+                'data' => ['role_name' => '', 'email' => 'newUser@app.com'],
                 'passed' => false,
             ],
             'request_should_success_when_role_name_is_provided' => [
                 'field' => 'role_name',
-                'data' => ['role_name' => 'role_name'],
+                'data' => ['role_name' => 'admin', 'email' => 'newUser@app.com'],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_is_active_is_provided' => [
                 'field' => 'is_active',
-                'data' => ['is_active' => ''],
+                'data' => ['is_active' => '', 'email' => 'newUser@app.com'],
                 'passed' => false,
             ],
             'request_should_success_when_is_active_is_provided' => [
                 'field' => 'is_active',
-                'data' => ['is_active' => '1'],
+                'data' => ['is_active' => '1', 'email' => 'newUser@app.com'],
                 'passed' => true,
             ],
 
@@ -141,14 +137,18 @@ class TeamMemberRequestTest extends TestCase
      */
     public function it_validate_update_teamMember_request($field, $formFields, $shouldPass = false)
     {
-        $this->signIn();
+        $user = create(User::class, ['email' => 'newUser@app.com']);
+        $this->newUser = $user;
+
+        $this->signIn($this->user);
         $this->beforeValidateUpdateRequest();
 
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['team_id'] = $this->team->id;
         $teamMember = $this->newItem($attributes);
 
-        $response = $this->updateItem($teamMember->id, $this->getItemFields($formFields));
+        $response = $this->updateItem([$this->team->id, $teamMember->id], $this->getItemFields($formFields));
 
         if (!$shouldPass) {
             $response->assertSessionHasErrors([$field]);
@@ -166,50 +166,6 @@ class TeamMemberRequestTest extends TestCase
     {
         return [
 
-            'request_should_fail_when_no_user_id_is_provided' => [
-                'field' => 'user_id',
-                'data' => ['user_id' => ''],
-                'passed' => false,
-            ],
-            'request_should_success_when_user_id_is_provided' => [
-                'field' => 'user_id',
-                'data' => ['user_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_user_id_value_is_not_integer' => [
-                'field' => 'user_id',
-                'data' => ['user_id' => 'not-integer'],
-                'passed' => false,
-            ],
-            'request_should_success_when_user_id_value_is_not_integer' => [
-                'field' => 'user_id',
-                'data' => ['user_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_no_team_id_is_provided' => [
-                'field' => 'team_id',
-                'data' => ['team_id' => ''],
-                'passed' => false,
-            ],
-            'request_should_success_when_team_id_is_provided' => [
-                'field' => 'team_id',
-                'data' => ['team_id' => '99'],
-                'passed' => true,
-            ],
-
-            'request_should_fail_when_team_id_value_is_not_integer' => [
-                'field' => 'team_id',
-                'data' => ['team_id' => 'not-integer'],
-                'passed' => false,
-            ],
-            'request_should_success_when_team_id_value_is_not_integer' => [
-                'field' => 'team_id',
-                'data' => ['team_id' => '99'],
-                'passed' => true,
-            ],
-
             'request_should_fail_when_no_role_name_is_provided' => [
                 'field' => 'role_name',
                 'data' => ['role_name' => ''],
@@ -217,21 +173,20 @@ class TeamMemberRequestTest extends TestCase
             ],
             'request_should_success_when_role_name_is_provided' => [
                 'field' => 'role_name',
-                'data' => ['role_name' => 'role_name'],
+                'data' => ['role_name' => 'admin'],
                 'passed' => true,
             ],
 
             'request_should_fail_when_no_is_active_is_provided' => [
                 'field' => 'is_active',
-                'data' => ['is_active' => ''],
+                'data' => ['is_active' => '', 'role_name' => 'admin'],
                 'passed' => false,
             ],
             'request_should_success_when_is_active_is_provided' => [
                 'field' => 'is_active',
-                'data' => ['is_active' => '1'],
+                'data' => ['is_active' => '1', 'role_name' => 'admin'],
                 'passed' => true,
             ],
-
 
         ];
     }
@@ -239,11 +194,12 @@ class TeamMemberRequestTest extends TestCase
     /** @test */
     public function authenticated_user_can_create_teamMember()
     {
-        $this->signIn();
+        $this->signIn($this->user);
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
-        $this->createItem($attributes);
+        $newUser = create(User::class);
+        $attributes[$this->itemUserColumn] = $newUser->id;
+        $this->createItem($attributes, $this->team->id);
 
         $model = new $this->base_model;
         $this->assertDatabaseHas($model->getTable(), [$this->itemUserColumn => $this->user->id]);
@@ -253,7 +209,7 @@ class TeamMemberRequestTest extends TestCase
     public function guest_cannot_create_teamMember()
     {
         $attributes = $this->itemAttributes;
-        $response = $this->createItem($attributes);
+        $response = $this->createItem($attributes, $this->team->id);
 
         $response->assertStatus(302);
         $response->assertRedirect('login');
@@ -262,23 +218,25 @@ class TeamMemberRequestTest extends TestCase
     /** @test */
     public function authenticated_user_can_update_teamMember()
     {
-        $this->signIn();
+        $this->signIn($this->user);
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
+        $newUser = create(User::class);
+        $attributes[$this->itemUserColumn] = $newUser->id;
         $teamMember = $this->newItem($attributes);
         $oldName = $teamMember->{$this->itemColumn};
+        $attributes['role_name'] = 'editor';
 
-        $this->updateItem($teamMember->id, $attributes);
+        $this->updateItem([$this->team->id, $teamMember->id], $attributes);
 
         $teamMember->refresh();
         $model = new $this->base_model;
         $this->assertDatabaseHas($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
+            $this->itemUserColumn => $newUser->id,
             $this->itemColumn => $teamMember->{$this->itemColumn},
         ]);
         $this->assertDatabaseMissing($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
+            $this->itemUserColumn => $newUser->id,
             $this->itemColumn => $oldName,
         ]);
     }
@@ -286,11 +244,13 @@ class TeamMemberRequestTest extends TestCase
     /** @test */
     public function authenticated_user_cannot_update_others_teamMember()
     {
-        $this->signIn();
+        $this->signIn($this->user);
         $attributes = $this->itemAttributes;
-        $other = $this->newItem($this->itemAttributes);
+        $otherTeam = create(Team::class);
+        $attributes['team_id'] = $otherTeam->id;
+        $other = $this->newItem($attributes);
 
-        $response = $this->updateItem($other->id);
+        $response = $this->updateItem([$otherTeam->id, $other->id]);
 
         $response->assertStatus(403);
     }
