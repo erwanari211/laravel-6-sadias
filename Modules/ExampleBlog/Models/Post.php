@@ -4,10 +4,12 @@ namespace Modules\ExampleBlog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\ExampleBlog\Presenters\PostPresenter;
+use App\Traits\UniqueCodeTrait;
 
 class Post extends Model
 {
     use PostPresenter;
+    use UniqueCodeTrait;
 
     /*
     |--------------------------------------------------------------------------
