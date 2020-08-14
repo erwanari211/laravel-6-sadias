@@ -17,6 +17,10 @@ class ExampleBlogDatabaseSeeder extends Seeder
         Model::unguard();
 
         // $this->call("OthersTableSeeder");
-        $this->call(ExampleBlogChannelsTableSeeder::class);
+        // $this->call(ExampleBlogChannelsTableSeeder::class);
+        $this->call(ExampleBlogTeamsTableSeeder::class);
+        $this->call(ExampleBlogTeamMembersTableSeeder::class);
+        $this->call(ExampleBlogTeamTagsTableSeeder::class);
+        $this->call(ExampleBlogTeamPostsTableSeeder::class);
     }
 }
