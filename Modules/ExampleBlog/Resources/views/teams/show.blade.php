@@ -21,6 +21,12 @@
       <div class="card-body">
         <h4 class="card-title">{{ $team->name }}</h4>
         <p class="card-text">{{ $team->description }}</p>
+
+        <hr>
+
+        <a class="btn btn-primary" href="{{ route('example-blog.team-members.index', $team->id) }}">Team Members</a>
+        <a class="btn btn-primary" href="{{ route('example-blog.teams.tags.index', $team->id) }}">Tags</a>
+        <a class="btn btn-primary" href="{{ route('example-blog.teams.posts.index', $team->id) }}">Posts</a>
       </div>
     </div>
   </div>
