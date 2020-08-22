@@ -11,8 +11,10 @@
         "php": "^7.2",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
+        "laracasts/flash": "^3.1",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",
+        "laravelcollective/html": "^6.0",
         "nwidart/laravel-modules": "^6.0"
     },
     "require-dev": {
@@ -45,12 +47,18 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Http/Helpers.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "tests/utilities/functions.php"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -73,6 +81,30 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -N"
+        ],
+        "db-fresh-seed": [
+            "composer dump-autoload",
+            "php artisan migrate:fresh --seed",
+            "php artisan module:seed"
+        ],
+        "db-seed-class": [
+            "composer dump-autoload",
+            "php artisan db:seed --class=DatabaseSeeder"
+        ],
+        "run-testing": [
+            "php artisan cache:clear",
+            "php artisan config:clear",
+            "\"vendor/bin/phpunit\" --debug"
+        ],
+        "run-testing-filter": [
+            "php artisan cache:clear",
+            "php artisan config:clear",
+            "\"vendor/bin/phpunit\" \"tests/Feature/ExampleTest\" --debug"
+        ],
+        "run-testing-by-module": [
+            "php artisan cache:clear",
+            "php artisan config:clear",
+            "\"vendor/bin/phpunit\" --filter 'Modules\\\\ModuleName\\\\Tests\\\\' --debug"
         ]
     }
 }

@@ -1,0 +1,12 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use Faker\Generator as Faker;
+use $MODEL_CLASS_NAMESPACE$\$MODEL_CLASS$;
+
+$factory->define($MODEL_CLASS$::class, function (Faker $faker) {
+    return [
+        $FAKER_FIELDS$
+    ];
+});

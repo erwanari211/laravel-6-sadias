@@ -1,0 +1,19 @@
+@extends('$MODULE$layouts.main')
+
+@section('title', __('$MODULE$$LANG_FILE$.crud.edit'))
+
+@section('content')
+  <div class="container">
+    <h1>{{ __('$MODULE$$LANG_FILE$.crud.edit') }}</h1>
+
+    @include('$MODULE$includes.messages')
+
+    {{ Form::model($$MODEL_VARIABLE$, [
+      'route' => ['$MODULE_ROUTE_NAME$$ROUTE_NAME$.update', $$MODEL_VARIABLE$->id],
+      'method' => 'PUT',
+      'files' => false,
+      ]) }}
+      @include('$MODULE$$VIEW_DIRECTORY$.form_fields', ['actionType' => 'edit'])
+    {{ Form::close() }}
+  </div>
+@endsection

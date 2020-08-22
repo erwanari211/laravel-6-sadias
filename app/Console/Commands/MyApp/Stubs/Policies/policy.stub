@@ -1,0 +1,63 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Auth\Access\HandlesAuthorization;
+use App\User;
+use $MODEL_CLASS_NAMESPACE$\$MODEL_CLASS$;
+
+class $POLICY_CLASS$
+{
+    use HandlesAuthorization;
+
+    /**
+     * Create a new policy instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    public function before($user, $ability)
+    {
+        //
+    }
+
+
+    public function viewAny(User $user)
+    {
+        return $user;
+    }
+
+    public function view(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
+    }
+
+    public function create(User $user)
+    {
+        return $user;
+    }
+
+    public function update(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
+    }
+
+    public function delete(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
+    }
+
+    public function restore(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
+    }
+
+    public function forceDelete(User $user, $MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        return $$MODEL_VARIABLE$->$COLUMN$ == $user->id;
+    }
+}

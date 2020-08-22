@@ -1,0 +1,25 @@
+{
+    "name": "nwidart/exampledocuments",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ExampleDocuments\\Providers\\ExampleDocumentsServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ExampleDocuments\\": ""
+        }
+    }
+}

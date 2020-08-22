@@ -1,0 +1,8 @@
+<?php
+
+namespace $NAMESPACE$;
+
+trait $PRESENTER_CLASS$
+{
+    //
+}

@@ -1,0 +1,65 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Database\Eloquent\Model;
+use $PRESENTER_CLASS_NAMESPACE$\$PRESENTER_CLASS$;
+
+class $MODEL_CLASS$ extends Model
+{
+    use $PRESENTER_CLASS$;
+
+    /*
+    |--------------------------------------------------------------------------
+    | GLOBAL VARIABLES
+    |--------------------------------------------------------------------------
+    */
+
+    // protected $table = 'table';
+    // protected $primaryKey = 'id';
+    // public $timestamps = false;
+    // protected $guarded = ['id'];
+    protected $fillable = $FILLABLE$;
+    // protected $hidden = [];
+    // protected $with = [];
+    // protected $perPage = 15;
+    // protected $casts = [];
+    // protected $dates = [];
+    // protected $appends = [];
+
+    public static $validationRules = [];
+
+    public static $validationAttributes = [];
+
+    public static $validationMessages = [];
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+$RELATIONS$
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESORS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+}
