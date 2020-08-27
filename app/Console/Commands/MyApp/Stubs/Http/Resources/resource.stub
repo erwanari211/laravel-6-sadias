@@ -16,6 +16,7 @@ class $RESOURCE_CLASS$ extends Resource
     {
         // return parent::toArray($request);
         return [
+            'id' => $this->id,
 $RESOURCE_FIELDS$
         ];
     }
