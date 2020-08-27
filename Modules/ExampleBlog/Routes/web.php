@@ -24,8 +24,12 @@ Route::group(['prefix' => 'example-blog/backend', 'as' => 'example-blog.'], func
     Route::resource('comments', 'CommentController')->middleware('auth');
     Route::resource('tags', 'TagController')->middleware('auth');
 
+    Route::get('posts-dt', 'Datatables\PostController@index')->middleware('auth');
+    Route::get('posts-datatable', 'Datatables\PostController@data')->middleware('auth')->name('posts-dt.data');
+
     Route::resource('teams', 'TeamController')->middleware('auth');
     Route::resource('teams/{team}/team-members', 'TeamMemberController')->middleware('auth');
     Route::resource('teams/{team}/tags', 'TeamTagController', ['as' => 'teams'])->middleware('auth');
     Route::resource('teams/{team}/posts', 'TeamPostController', ['as' => 'teams'])->middleware('auth');
+
 });
