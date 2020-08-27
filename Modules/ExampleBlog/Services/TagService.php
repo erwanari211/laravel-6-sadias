@@ -23,6 +23,8 @@ class TagService
         $user = auth()->user();
         $data = $this->model
             ->where('owner_id', $user->id)
+            ->where('ownerable_id', $user->id)
+            ->where('ownerable_type', get_class($user))
             ->latest()->paginate($this->perPage);
         return TagResource::collection($data);
     }
