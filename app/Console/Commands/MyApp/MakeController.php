@@ -108,6 +108,7 @@ class MakeController extends Command
             'MODEL_VARIABLE_PLURAL' => $this->data['MODEL_VARIABLE_PLURAL'],
             'SUBJECT' => $this->data['SUBJECT'],
             'VIEW_PATH' => $this->data['VIEW_PATH'],
+            'MODULE' => $module ? strtolower($module) . '::' : '' ,
             'MODULE_ROUTE_NAME' => $module ? Str::kebab($module).'.' : '',
             'ROUTE_NAME' => $this->data['ROUTE_NAME'],
         ];

@@ -197,6 +197,7 @@ class MakeView extends Command
     {
         $settings = $this->settings;
         $result = '';
+        $tab = '  ';
         if($settings && isset($settings['fields'])){
             $result .= "\n";
             $module = $this->option('module');
@@ -210,7 +211,7 @@ class MakeView extends Command
                     continue;
                 }
 
-                $result .= "                ";
+                $result .= str_repeat($tab, 4);
                 $result .= '<th>{{ __(\''.$moduleName.$langFile.'.attributes.'.$field.'\') }}</th>';
                 $result .= "\n";
             }
@@ -223,6 +224,7 @@ class MakeView extends Command
     {
         $settings = $this->settings;
         $result = '';
+        $tab = '  ';
         if($settings && isset($settings['fields'])){
             $result .= "\n";
             $modelVariable = $this->data['MODEL_VARIABLE'];
@@ -237,7 +239,7 @@ class MakeView extends Command
                     continue;
                 }
 
-                $result .= "                        ";
+                $result .= str_repeat($tab, 6);
                 $result .= '<td>{{ $'.$modelVariable.'->'.$field.' }}</td>';
                 $result .= "\n";
             }

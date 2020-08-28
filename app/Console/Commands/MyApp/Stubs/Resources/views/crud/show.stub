@@ -1,4 +1,7 @@
-@extends('$MODULE$layouts.main')
+@php
+    $viewLayout = $viewLayout ?? '$MODULE$layouts.main';
+@endphp
+@extends($viewLayout)
 
 @section('title', __('$MODULE$$LANG_FILE$.crud.show'))
 
