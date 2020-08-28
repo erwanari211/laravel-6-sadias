@@ -21,4 +21,5 @@ Route::group(['prefix' => 'example-documents', 'as' => 'example.documents.'], fu
 
     Route::get('/flash-message', 'FlashController@index');
     Route::get('/sweet-alert', 'SweetAlertController@index');
+    Route::get('/pdf', 'PdfController@index');
 });
