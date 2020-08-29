@@ -25,4 +25,6 @@ Route::group(['prefix' => 'example-documents', 'as' => 'example.documents.'], fu
 
     Route::resource('/upload-file', 'UploadFileController');
     Route::resource('/image-resize', 'ImageResizeController');
+
+    Route::get('/export-excel', 'ExportExcelController@export');
 });
