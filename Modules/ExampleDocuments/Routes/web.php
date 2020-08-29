@@ -24,4 +24,5 @@ Route::group(['prefix' => 'example-documents', 'as' => 'example.documents.'], fu
     Route::get('/pdf', 'PdfController@index');
 
     Route::resource('/upload-file', 'UploadFileController');
+    Route::resource('/image-resize', 'ImageResizeController');
 });
