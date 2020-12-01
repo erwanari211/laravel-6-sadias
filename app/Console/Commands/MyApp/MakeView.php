@@ -185,6 +185,9 @@ class MakeView extends Command
 
                 $label = '\'label\' => __(\''.$moduleName.$langFile.'.attributes.'.$field.'\')';
                 $formInput = '{!! Form::'.$inputType.'(\''.$field.'\', null, ['.$label.']) !!}';
+                if (in_array($fieldType, ['boolean', 'tinyInteger', 'unsignedTinyInteger'])) {
+                    $formInput = '{!! Form::bsSelect(\''.$field.'\', [1 => \'Yes\', 0 => \'No\'], null, ['.$label.']) !!}';
+                }
                 $result .= $formInput;
                 $result .= "\n";
             }
