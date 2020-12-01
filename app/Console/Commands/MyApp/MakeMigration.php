@@ -150,6 +150,11 @@ class MakeMigration extends Command
         $migrationAlreadyExists = false;
 
         $filenameWithoutTimestamp = substr($this->outputName, 18);
+
+        if (! File::isDirectory($this->outputPath)) {
+            File::makeDirectory($this->outputPath, 0777, true, true);
+        }
+
         $files = File::allFiles($this->outputPath);
         foreach ($files as $file) {
             $migrationFilename = $file->getFilename();
