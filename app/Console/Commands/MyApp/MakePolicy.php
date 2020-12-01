@@ -109,6 +109,10 @@ class MakePolicy extends Command
 
     public function registerPolicy()
     {
+        if ($this->option('output') == 0) {
+            return false;
+        }
+
         $replaceData = $this->getReplaceData();
 
         $modelClass = $replaceData['MODEL_CLASS'];
