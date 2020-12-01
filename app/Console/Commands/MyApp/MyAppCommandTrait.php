@@ -48,7 +48,7 @@ trait MyAppCommandTrait
 
     public function getFileDirectoryData()
     {
-        return [
+        $directories = [
             'model' => 'Models/',
             'presenter' => 'Presenters/',
             'migration' => 'Database/Migrations/',
@@ -69,6 +69,8 @@ trait MyAppCommandTrait
             'policy test' => 'tests/Unit/Policies/',
             'service test' => 'tests/Unit/Services/',
         ];
+
+        return $directories;
     }
 
     public function setOutputName()
@@ -89,6 +91,10 @@ trait MyAppCommandTrait
     public function setOutputPath()
     {
         $this->setClassNamespace();
+        if ($this->option('module')) {
+            $this->classNamespace = str_replace('/tests/', '/Tests/', $this->classNamespace);
+        }
+
         if ($this->option('output') == 1) {
             $this->outputPath = $this->basepath . $this->classNamespace;
         } else {

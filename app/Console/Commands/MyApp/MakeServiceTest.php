@@ -79,6 +79,14 @@ class MakeServiceTest extends Command
     public function getReplaceData()
     {
         $fileDirectories = $this->getFileDirectoryData();
+        if ($this->option('module')) {
+            foreach ($fileDirectories as $file => $directory) {
+                if (strpos($file, 'test')) {
+                    $fileDirectories[$file] = str_replace('tests/', 'Tests/', $fileDirectories[$file]);
+                }
+            }
+        }
+
         $module = $this->option('module');
         $replaceData = [
             'SERVICE_TEST_CLASS' => $this->outputName,

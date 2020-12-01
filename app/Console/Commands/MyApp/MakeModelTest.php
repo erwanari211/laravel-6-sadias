@@ -79,6 +79,14 @@ class MakeModelTest extends Command
     public function getReplaceData()
     {
         $fileDirectories = $this->getFileDirectoryData();
+        if ($this->option('module')) {
+            foreach ($fileDirectories as $file => $directory) {
+                if (strpos($file, 'test')) {
+                    $fileDirectories[$file] = str_replace('tests/', 'Tests/', $fileDirectories[$file]);
+                }
+            }
+        }
+
         $replaceData = [
             'MODEL_TEST_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
