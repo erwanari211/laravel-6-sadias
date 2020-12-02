@@ -125,6 +125,16 @@ class GenerateFiles extends Command
             '--debug' => $debug,
         ]);
 
+        $this->call('my_app:make_datatables_service', [
+            'name' => $name,
+            '--module' => $module,
+            '--file-settings' => $fileSettings,
+            '--output' => $output,
+            '--force' => $force,
+            '--debug' => $debug,
+        ]);
+
+
         $this->call('my_app:make_controller', [
             'name' => $name,
             '--module' => $module,

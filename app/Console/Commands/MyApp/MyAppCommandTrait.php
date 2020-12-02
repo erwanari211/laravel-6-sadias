@@ -68,6 +68,8 @@ trait MyAppCommandTrait
             'model test' => 'tests/Unit/Models/',
             'policy test' => 'tests/Unit/Policies/',
             'service test' => 'tests/Unit/Services/',
+
+            'datatables service' => 'Services/Datatables/',
         ];
 
         return $directories;
