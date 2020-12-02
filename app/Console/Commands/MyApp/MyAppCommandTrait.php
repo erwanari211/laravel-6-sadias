@@ -70,6 +70,7 @@ trait MyAppCommandTrait
             'service test' => 'tests/Unit/Services/',
 
             'datatables service' => 'Services/Datatables/',
+            'datatables controller' => 'Http/Controllers/Datatables/',
         ];
 
         return $directories;
@@ -199,5 +200,20 @@ trait MyAppCommandTrait
             $viewPath = strtolower($module).'::'.$viewPath;
         }
         return $viewPath;
+    }
+
+    public function checkUseDatatables()
+    {
+        $this->readFileSettings();
+        $useDatatables = true;
+
+        $settings = $this->settings;
+        if (!isset($settings['useDatatables'])) {
+            $useDatatables = false;
+        } elseif (!$settings['useDatatables']) {
+            $useDatatables = false;
+        }
+
+        return $useDatatables;
     }
 }

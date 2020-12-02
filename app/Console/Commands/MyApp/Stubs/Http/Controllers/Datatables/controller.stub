@@ -1,0 +1,57 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use DataTables;
+use $SERVICE_CLASS_NAMESPACE$\$SERVICE_CLASS$;
+use $MODEL_CLASS_NAMESPACE$\$MODEL_CLASS$;
+use $REQUEST_CLASS_NAMESPACE$\$REQUEST_CLASS$;
+
+class $CONTROLLER_CLASS$ extends Controller
+{
+    public $service;
+    public $data;
+
+    public function __construct()
+    {
+        $this->service = new $SERVICE_CLASS$;
+    }
+
+    public function index()
+    {
+        return $this->service->getData();
+    }
+
+    public function create()
+    {
+        //
+    }
+
+    public function store($REQUEST_CLASS$ $request)
+    {
+        //
+    }
+
+    public function show($MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        //
+    }
+
+    public function edit($MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        //
+    }
+
+    public function update($REQUEST_CLASS$ $request, $MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        //
+    }
+
+    public function destroy($MODEL_CLASS$ $$MODEL_VARIABLE$)
+    {
+        //
+    }
+}
