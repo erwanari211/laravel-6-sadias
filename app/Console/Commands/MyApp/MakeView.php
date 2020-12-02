@@ -64,8 +64,17 @@ class MakeView extends Command
         $this->outputPath .= '/' . $viewDirectory;
         $this->setOutputPathInRoot();
 
-        $views = ['index', 'table', 'create', 'show', 'edit', 'form_fields'];
+        $views = ['index', 'table', 'create', 'show', 'edit', 'form_fields', 'datatables-index'];
         foreach ($views as $view) {
+
+            if ($view == 'datatables-index') {
+                $useDatatables = $this->checkUseDatatables();
+                if (!$useDatatables) {
+                    return false;
+                }
+            }
+
+
             $this->storeOutputSetting($view);
 
             if($this->option('debug')){
@@ -115,6 +124,7 @@ class MakeView extends Command
             'FORM_FIELDS' => $this->getFormFields(),
             'TABLE_HEADER' => $this->getTableHeader(),
             'TABLE_BODY' => $this->getTableBody(),
+            'DATATABLES_SCRIPT_COLUMNS' => $this->getDatatablesScriptColumns(),
         ];
 
         return $replaceData;
@@ -244,6 +254,31 @@ class MakeView extends Command
 
                 $result .= str_repeat($tab, 6);
                 $result .= '<td>{{ $'.$modelVariable.'->'.$field.' }}</td>';
+                $result .= "\n";
+            }
+        }
+
+        return $result;
+    }
+
+
+    public function getDatatablesScriptColumns()
+    {
+        $settings = $this->settings;
+        $result = '';
+        $tab = '  ';
+        if($settings && isset($settings['fields'])){
+            $result .= "\n";
+            foreach ($settings['fields'] as $field => $fieldSettings) {
+                $fieldSetting = explode('|', $fieldSettings[0]);
+                $fieldType = array_shift($fieldSetting);
+
+                if ($fieldType == 'morphs') {
+                    continue;
+                }
+
+                $result .= str_repeat($tab, 5);
+                $result .= '{data: \'' . $field . '\', name: \'' . $field . '\'}';
                 $result .= "\n";
             }
         }
