@@ -18,11 +18,11 @@
 
   <script type="text/javascript">
     $(function() {
-      var datatable = $('#example-table').DataTable({
+      var datatable = $('#main-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
-          url: '{{ route('example-blog.links.datatables.index') }}',
+          url: '{{ route('$MODULE_ROUTE_NAME$$ROUTE_NAME$.datatables.index') }}',
           data: function (d) {
 
           }
@@ -55,17 +55,20 @@ $DATATABLES_SCRIPT_COLUMNS$
           </a>
         </div>
 
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>{{ __('my_app.table.columns.no') }}</th>
-              <th>{{ __('my_app.table.columns.actions') }}</th>
+        <div class="table-responsive">
+          <table class="table table-bordered" id="main-table">
+            <thead>
+              <tr>
+                <th>{{ __('my_app.table.columns.no') }}</th>
+                <th>{{ __('my_app.table.columns.actions') }}</th>
 
-      $TABLE_HEADER$
+                $TABLE_HEADER$
 
-            </tr>
-          </thead>
-        <table>
+              </tr>
+            </thead>
+          <table>
+        </div>
+
       </div>
     </div>
 

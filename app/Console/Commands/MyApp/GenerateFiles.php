@@ -134,8 +134,7 @@ class GenerateFiles extends Command
             '--debug' => $debug,
         ]);
 
-
-        $this->call('my_app:make_controller', [
+        $this->call('my_app:make_datatables_controller', [
             'name' => $name,
             '--module' => $module,
             '--file-settings' => $fileSettings,
@@ -144,7 +143,7 @@ class GenerateFiles extends Command
             '--debug' => $debug,
         ]);
 
-        $this->call('my_app:make_datatables_controller', [
+        $this->call('my_app:make_controller', [
             'name' => $name,
             '--module' => $module,
             '--file-settings' => $fileSettings,

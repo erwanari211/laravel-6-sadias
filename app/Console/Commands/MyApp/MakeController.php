@@ -115,7 +115,7 @@ class MakeController extends Command
             'MODULE' => $module ? strtolower($module) . '::' : '' ,
             'MODULE_ROUTE_NAME' => $module ? Str::kebab($module).'.' : '',
             'ROUTE_NAME' => $this->data['ROUTE_NAME'],
-            'INDEX_VIEW' => (!$useDatatables ? 'index' : 'datatable-index'),
+            'INDEX_VIEW' => (!$useDatatables ? 'index' : 'datatables-index'),
         ];
 
         return $replaceData;

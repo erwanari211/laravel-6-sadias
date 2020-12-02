@@ -278,7 +278,7 @@ class MakeView extends Command
                 }
 
                 $result .= str_repeat($tab, 5);
-                $result .= '{data: \'' . $field . '\', name: \'' . $field . '\'}';
+                $result .= '{data: \'' . $field . '\', name: \'' . $field . '\'},';
                 $result .= "\n";
             }
         }
