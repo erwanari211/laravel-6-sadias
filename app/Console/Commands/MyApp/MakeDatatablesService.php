@@ -19,7 +19,7 @@ class MakeDatatablesService extends Command
                             {--force=0 : Force}
                             {--debug : Debug}';
 
-    protected $description = 'Create Custom Service';
+    protected $description = 'Create Custom Datatables Service';
 
     protected $basepath;
     protected $fileType;
@@ -53,6 +53,11 @@ class MakeDatatablesService extends Command
     public function handle()
     {
         $this->name = $this->argument('name');
+
+        $useDatatables = $this->checkUseDatatables();
+        if (!$useDatatables) {
+            return false;
+        }
 
         $this->setData();
         $this->setOutputName();
