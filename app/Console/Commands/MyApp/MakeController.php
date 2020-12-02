@@ -14,6 +14,7 @@ class MakeController extends Command
     protected $signature = 'my_app:make_controller
                             {name : Name}
                             {--module= : Module name}
+                            {--file-settings= : File Settings}
                             {--output=1 : Use default folder output}
                             {--force=0 : Force}
                             {--debug : Debug}';
@@ -77,6 +78,9 @@ class MakeController extends Command
     {
         $fileDirectories = $this->getFileDirectoryData();
         $module = $this->option('module');
+
+        $useDatatables = $this->checkUseDatatables();
+
         $replaceData = [
             'CONTROLLER_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
@@ -111,6 +115,7 @@ class MakeController extends Command
             'MODULE' => $module ? strtolower($module) . '::' : '' ,
             'MODULE_ROUTE_NAME' => $module ? Str::kebab($module).'.' : '',
             'ROUTE_NAME' => $this->data['ROUTE_NAME'],
+            'INDEX_VIEW' => (!$useDatatables ? 'index' : 'datatable-index'),
         ];
 
         return $replaceData;

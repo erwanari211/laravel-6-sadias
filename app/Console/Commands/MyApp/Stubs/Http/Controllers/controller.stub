@@ -25,7 +25,7 @@ class $CONTROLLER_CLASS$ extends Controller
     {
         $this->authorize('viewAny', $MODEL_CLASS$::class);
         $$MODEL_VARIABLE_PLURAL$ = $this->service->getData();
-        return view('$VIEW_PATH$.index')->with([
+        return view('$VIEW_PATH$.$INDEX_VIEW$')->with([
             '$MODEL_VARIABLE_PLURAL$' => $$MODEL_VARIABLE_PLURAL$,
             'viewLayout' => $this->viewLayout,
         ]);

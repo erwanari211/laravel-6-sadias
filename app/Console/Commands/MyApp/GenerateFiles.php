@@ -138,6 +138,7 @@ class GenerateFiles extends Command
         $this->call('my_app:make_controller', [
             'name' => $name,
             '--module' => $module,
+            '--file-settings' => $fileSettings,
             '--output' => $output,
             '--force' => $force,
             '--debug' => $debug,
