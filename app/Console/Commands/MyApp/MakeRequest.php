@@ -92,6 +92,7 @@ class MakeRequest extends Command
             'MODEL_VARIABLE' => $this->data['MODEL_VARIABLE'],
             'ROUTE_VARIABLE' => $this->data['ROUTE_VARIABLE'],
             'RULES' => $this->getRules(),
+            'ATTRIBUTES' => $this->getAttributes(),
         ];
 
         return $replaceData;
@@ -106,6 +107,22 @@ class MakeRequest extends Command
             foreach ($settings['rules'] as $field => $rule) {
                 $result .= "            ";
                 $result .= '\''.$field.'\' => \''.$rule.'\',';
+                $result .= "\n";
+            }
+        }
+
+        return $result;
+    }
+
+    public function getAttributes()
+    {
+        $settings = $this->settings;
+        $result = '';
+        if($settings && isset($settings['lang'])){
+            $result .= "\n";
+            foreach ($settings['lang'] as $field => $lang) {
+                $result .= "            ";
+                $result .= '\''.$field.'\' => \''.$lang.'\',';
                 $result .= "\n";
             }
         }
