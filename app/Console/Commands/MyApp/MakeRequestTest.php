@@ -167,6 +167,12 @@ class MakeRequestTest extends Command
                         if ($containBoolean) {
                             $fieldData = 1;
                         }
+
+                        $containUrl = Str::contains($fieldRules, ['url']);
+                        if ($containUrl) {
+                            $fieldData = 'http://www.example.com';
+                        }
+
                         $result .= $tab3 . "'request_should_success_when_{$field}_is_provided' => [" . "\n";
                         $result .= $tab4 . "'field' => '{$field}'," . "\n";
                         $result .= $tab4 . "'data' => ['{$field}' => '{$fieldData}']," . "\n";
