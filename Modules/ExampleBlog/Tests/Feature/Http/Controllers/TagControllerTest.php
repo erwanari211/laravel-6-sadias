@@ -48,6 +48,8 @@ class TagControllerTest extends TestCase
     {
         $this->signIn();
         $this->itemAttributes[$this->itemUserColumn] = $this->user->id;
+        $this->itemAttributes['ownerable_type'] = 'App\User';
+        $this->itemAttributes['ownerable_id'] = $this->user->id;
         $tag = $this->newItem($this->itemAttributes);
 
         $response = $this->readAllItems();

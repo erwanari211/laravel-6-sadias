@@ -41,6 +41,8 @@ class TagServiceTest extends TestCase
         $this->signIn();
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['ownerable_type'] = 'App\User';
+        $attributes['ownerable_id'] = $this->user->id;
         $tag = $this->newItem($attributes);
 
         $tags = $service->getData();
@@ -97,10 +99,14 @@ class TagServiceTest extends TestCase
         $this->signIn();
         $attributes = $this->itemAttributes;
         $attributes[$this->itemUserColumn] = $this->user->id;
+        $attributes['ownerable_type'] = 'App\User';
+        $attributes['ownerable_id'] = $this->user->id;
         $tag = $this->newItem($attributes);
         // $tag->load('owner');
 
         $attributes = $this->itemAttributes;
+        $attributes['ownerable_type'] = 'App\User';
+        $attributes['ownerable_id'] = $this->user->id;
         $othertag = $this->newItem($attributes);
 
         $tags = $service->getData();
