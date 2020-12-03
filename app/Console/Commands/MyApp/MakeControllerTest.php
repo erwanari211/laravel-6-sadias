@@ -88,6 +88,8 @@ class MakeControllerTest extends Command
         }
 
         $module = $this->option('module');
+        $useDatatables = $this->checkUseDatatables();
+
         $replaceData = [
             'CONTROLLER_TEST_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
@@ -105,6 +107,7 @@ class MakeControllerTest extends Command
             'MODEL_VARIABLE_PLURAL' => $this->data['MODEL_VARIABLE_PLURAL'],
             'VIEW_PATH' => $this->data['VIEW_PATH'],
             'ITEM_USER_COLUMN' => $this->getItemUserColumn(),
+            'USE_DATATABLES' => $useDatatables,
         ];
 
         return $replaceData;
