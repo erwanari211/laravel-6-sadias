@@ -14,3 +14,9 @@
 Route::prefix('examplepermission')->group(function() {
     Route::get('/', 'ExamplePermissionController@index');
 });
+
+
+Route::group(['prefix' => 'example-permission', 'as' => 'example-permission.'], function () {
+    Route::get('roles/datatables', 'Datatables\RoleController@index')->middleware('auth')->name('roles.datatables.index');
+    Route::resource('roles', 'RoleController')->middleware('auth');
+});
