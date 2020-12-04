@@ -24,5 +24,11 @@ Route::group(['prefix' => 'example-permission', 'as' => 'example-permission.'], 
     Route::resource('permissions', 'PermissionController')->middleware('auth');
 
     Route::get('users/datatables', 'Datatables\UserController@index')->middleware('auth')->name('users.datatables.index');
+    Route::put('users/{user}/roles', 'UserRoleController@update')->middleware('auth')->name('users.roles.update');
     Route::resource('users', 'UserController')->middleware('auth');
+
+    Route::get('pages', 'PageController@index')->middleware('auth')->name('pages.home');
+    Route::get('pages/super-admin', 'PageController@superAdmin')->middleware('auth')->name('pages.super-admin');
+    Route::get('pages/admin', 'PageController@admin')->middleware('auth')->name('pages.admin');
+    Route::get('pages/normal', 'PageController@normal')->middleware('auth')->name('pages.normal');
 });

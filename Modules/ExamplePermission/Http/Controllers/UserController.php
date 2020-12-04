@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Modules\ExamplePermission\Models\User;
 use Modules\ExamplePermission\Services\UserService;
 use Modules\ExamplePermission\Http\Requests\UserRequest;
+use Modules\ExamplePermission\Services\RoleService;
+use App\User as UserModel;
 
 class UserController extends Controller
 {
@@ -19,6 +21,8 @@ class UserController extends Controller
         $this->service = new UserService;
         $this->data = [];
         $this->viewLayout = 'examplepermission::layouts.main';
+
+        $this->roleService = new RoleService;
     }
 
     public function index()
@@ -55,9 +59,16 @@ class UserController extends Controller
     public function show(User $user)
     {
         $this->authorize('view', $user);
+
+        $userAccount = UserModel::find($user->id);
+        $userRoles = $userAccount->roles;
+
+        $roles = $this->roleService->getAll(['orderBy' => ['name']]);
         return view('examplepermission::users.show')->with([
             'user' => $user,
             'viewLayout' => $this->viewLayout,
+            'userRoles' => $userRoles,
+            'roles' => $roles,
         ]);
     }
 
