@@ -22,4 +22,7 @@ Route::group(['prefix' => 'example-permission', 'as' => 'example-permission.'], 
 
     Route::get('permissions/datatables', 'Datatables\PermissionController@index')->middleware('auth')->name('permissions.datatables.index');
     Route::resource('permissions', 'PermissionController')->middleware('auth');
+
+    Route::get('users/datatables', 'Datatables\UserController@index')->middleware('auth')->name('users.datatables.index');
+    Route::resource('users', 'UserController')->middleware('auth');
 });
