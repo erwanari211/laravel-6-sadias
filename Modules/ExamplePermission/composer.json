@@ -1,0 +1,25 @@
+{
+    "name": "nwidart/examplepermission",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ExamplePermission\\Providers\\ExamplePermissionServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ExamplePermission\\": ""
+        }
+    }
+}
