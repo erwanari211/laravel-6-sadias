@@ -18,6 +18,7 @@ Route::prefix('examplepermission')->group(function() {
 
 Route::group(['prefix' => 'example-permission', 'as' => 'example-permission.'], function () {
     Route::get('roles/datatables', 'Datatables\RoleController@index')->middleware('auth')->name('roles.datatables.index');
+    Route::put('roles/{role}/permissions', 'RolePermissionController@update')->middleware('auth')->name('roles.permissions.update');
     Route::resource('roles', 'RoleController')->middleware('auth');
 
     Route::get('permissions/datatables', 'Datatables\PermissionController@index')->middleware('auth')->name('permissions.datatables.index');

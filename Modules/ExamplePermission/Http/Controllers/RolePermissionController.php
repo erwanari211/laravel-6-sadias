@@ -4,10 +4,12 @@ namespace Modules\ExamplePermission\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
-use App\User;
+use Illuminate\Routing\Controller;
+use Modules\ExamplePermission\Models\Role;
+use Spatie\Permission\Models\Role as RoleModel;
+use Spatie\Permission\Models\Permission as PermissionModel;
 
-class UserRoleController extends Controller
+class RolePermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -63,15 +65,23 @@ class UserRoleController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Role $role)
     {
-        $roles = request('roles');
-        /** @var \App\User|null $user */
-        $user->syncRoles($roles);
+        $permissions = request('permissions');
+
+        $roleModel = RoleModel::findByName($role->name);
+        /** @var \Spatie\Permission\Models\Role|null $roleModel */
+        $roleModel->permissions()->detach();
+
+        foreach ($permissions as $permissionId) {
+            $permission = PermissionModel::findById($permissionId);
+            $roleModel->givePermissionTo($permission->name);
+        }
 
         $message = __('my_app.messages.data_updated');
         flash($message)->success();
-        return redirect()->route('example-permission.users.show', $user->id);
+        return redirect()->route('example-permission.roles.show', $role->id);
+
     }
 
     /**

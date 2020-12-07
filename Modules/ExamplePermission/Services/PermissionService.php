@@ -64,4 +64,16 @@ class PermissionService
     {
         //
     }
+
+    public function getAll($options = [])
+    {
+        $data = $this->model;
+        if (isset($options['orderBy']) && $options['orderBy']) {
+            $column = $options['orderBy'][0];
+            $dir = $options['orderBy'][1] ?? 'asc';
+            $data = $data->orderBy($column, $dir);
+        }
+        $data = $data->get();
+        return $data;
+    }
 }

@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Modules\ExamplePermission\Models\Role;
 use Modules\ExamplePermission\Services\RoleService;
 use Modules\ExamplePermission\Http\Requests\RoleRequest;
+use Modules\ExamplePermission\Services\PermissionService;
+use Spatie\Permission\Models\Role as RoleModel;
 
 class RoleController extends Controller
 {
@@ -19,6 +21,8 @@ class RoleController extends Controller
         $this->service = new RoleService;
         $this->data = [];
         $this->viewLayout = 'examplepermission::layouts.main';
+
+        $this->permissionService = new PermissionService;
     }
 
     public function index()
@@ -55,9 +59,17 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         $this->authorize('view', $role);
+
+        $roleModel = RoleModel::findByName($role->name);
+        $rolePermissions = $roleModel->permissions;
+
+        $permissions = $this->permissionService->getAll(['orderBy' => ['name']]);
+
         return view('examplepermission::roles.show')->with([
             'role' => $role,
             'viewLayout' => $this->viewLayout,
+            'permissions' => $permissions,
+            'rolePermissions' => $rolePermissions,
         ]);
     }
 
