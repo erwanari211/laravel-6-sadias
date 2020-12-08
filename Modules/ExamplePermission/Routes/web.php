@@ -32,4 +32,5 @@ Route::group(['prefix' => 'example-permission', 'as' => 'example-permission.'], 
     Route::get('pages/super-admin', 'PageController@superAdmin')->middleware('auth')->name('pages.super-admin');
     Route::get('pages/admin', 'PageController@admin')->middleware('auth')->name('pages.admin');
     Route::get('pages/normal', 'PageController@normal')->middleware('auth')->name('pages.normal');
+    Route::get('pages/permission/{permission}', 'PageController@permission')->middleware('auth')->name('pages.permission.show');
 });

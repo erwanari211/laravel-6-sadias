@@ -5,13 +5,18 @@ namespace Modules\ExamplePermission\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\ExamplePermission\Models\Permission;
 
 class PageController extends Controller
 {
 
     public function index()
     {
-        return view('examplepermission::pages.index');
+        $permissions = Permission::orderBy('name')->get();
+
+        return view('examplepermission::pages.index')->with([
+            'permissions' => $permissions,
+        ]);
     }
 
     public function superAdmin()
@@ -45,6 +50,20 @@ class PageController extends Controller
         $hasAccess = $user->hasRole(['p-super-admin', 'p-admin', 'p-writer']);
 
         $pageName = $hasAccess ? 'Normal' : 404;
+        return view('examplepermission::pages.page')->with([
+            'pageName' => $pageName,
+        ]);
+    }
+
+    public function permission($permissionId)
+    {
+        $permission = Permission::findOrFail($permissionId);
+
+        /** @var  \App\User|null $user */
+        $user = auth()->user();
+        $hasPermission = $user->hasPermissionTo($permission->name);
+
+        $pageName = $hasPermission ? $permission->name : 404;
         return view('examplepermission::pages.page')->with([
             'pageName' => $pageName,
         ]);
