@@ -216,4 +216,17 @@ trait MyAppCommandTrait
 
         return $useDatatables;
     }
+
+    public function checkItemColumn()
+    {
+        $this->readFileSettings();
+        $itemColumn = 'name';
+
+        $settings = $this->settings;
+        if (isset($settings['itemColumn']) && $settings['itemColumn']) {
+            $itemColumn = $settings['itemColumn'];
+        }
+
+        return $itemColumn;
+    }
 }

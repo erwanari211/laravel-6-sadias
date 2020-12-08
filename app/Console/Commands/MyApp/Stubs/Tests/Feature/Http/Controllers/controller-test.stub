@@ -29,7 +29,7 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
         ];
 
         $this->itemUserColumn = '$ITEM_USER_COLUMN$';
-        $this->itemColumn = 'name';
+        $this->itemColumn = '$ITEM_COLUMN$';
         $this->itemAttributes = $attributes;
         $this->useDatatables = $USE_DATATABLES$;
     }

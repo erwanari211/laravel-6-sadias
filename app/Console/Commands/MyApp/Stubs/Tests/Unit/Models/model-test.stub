@@ -23,7 +23,7 @@ class $MODEL_TEST_CLASS$ extends TestCase
         $attributes = [];
 
         $this->itemUserColumn = '$ITEM_USER_COLUMN$';
-        $this->itemColumn = 'name';
+        $this->itemColumn = '$ITEM_COLUMN$';
         $this->itemAttributes = $attributes;
     }
 

@@ -87,6 +87,7 @@ class MakePolicyTest extends Command
             }
         }
 
+        $itemColumn = $this->checkItemColumn();
         $replaceData = [
             'POLICY_TEST_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
@@ -100,6 +101,7 @@ class MakePolicyTest extends Command
             ),
             'MODEL_VARIABLE' => $this->data['MODEL_VARIABLE'],
             'ITEM_USER_COLUMN' => $this->getItemUserColumn(),
+            'ITEM_COLUMN' => $itemColumn,
         ];
 
         return $replaceData;

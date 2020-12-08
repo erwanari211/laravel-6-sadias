@@ -88,6 +88,8 @@ class MakeRequestTest extends Command
         }
 
         $module = $this->option('module');
+        $itemColumn = $this->checkItemColumn();
+
         $storeRequestData = $this->getStoreRequestData();
         $replaceData = [
             'REQUEST_TEST_CLASS' => $this->outputName,
@@ -110,6 +112,7 @@ class MakeRequestTest extends Command
             'UPDATE_ITEM_DATA_PROVIDER' => $storeRequestData['dataProvider'],
             'BEFORE_UPDATE_REQUEST' => $storeRequestData['beforeRequest'],
             'ITEM_USER_COLUMN' => $this->getItemUserColumn(),
+            'ITEM_COLUMN' => $itemColumn,
         ];
 
         return $replaceData;
