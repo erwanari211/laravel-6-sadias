@@ -7,20 +7,20 @@
 
 @section('content')
   <div class="container">
-		<h1>{{ __('$MODULE$$LANG_FILE$.crud.show') }}</h1>
+    <h1>{{ __('$MODULE$$LANG_FILE$.crud.show') }}</h1>
 
-		<div class="card">
+    <div class="card">
       <div class="card-header">{{ __('$MODULE$$LANG_FILE$.crud.show') }}</div>
       <div class="card-body">
-				@include('$MODULE$includes.messages')
+        @include('$MODULE$includes.messages')
 
-				{{ Form::model($$MODEL_VARIABLE$, [
-					'url' => '#',
-					'method' => 'POST',
-					'files' => false,
-					]) }}
-					@include('$MODULE$$VIEW_DIRECTORY$.form_fields', ['actionType' => 'show'])
-				{{ Form::close() }}
+        {{ Form::model($$MODEL_VARIABLE$, [
+          'url' => '#',
+          'method' => 'POST',
+          'files' => false,
+          ]) }}
+          @include('$MODULE$$VIEW_DIRECTORY$.form_fields', ['actionType' => 'show'])
+        {{ Form::close() }}
       </div>
     </div>
 
