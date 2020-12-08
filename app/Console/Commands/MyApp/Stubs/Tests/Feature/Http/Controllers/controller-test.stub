@@ -15,6 +15,7 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
     public $itemColumn;
     public $itemUserColumn;
     public $itemAttributes;
+    public $useDatatables = false;
 
     public function setUp(): void
     {
@@ -23,11 +24,14 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
         $this->setBaseRoute('$MODULE_ROUTE_NAME$$ROUTE_NAME$');
         $this->setBaseModel($MODEL_CLASS$::class);
 
-        $attributes = [];
+        $attributes = [
+
+        ];
 
         $this->itemUserColumn = '$ITEM_USER_COLUMN$';
         $this->itemColumn = 'name';
         $this->itemAttributes = $attributes;
+        $this->useDatatables = $USE_DATATABLES$;
     }
 
     /** @test */
@@ -53,9 +57,17 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
         $response = $this->readAllItems();
 
         $response->assertStatus(200);
-        $response->assertViewIs('$VIEW_PATH$.index');
-		$response->assertViewHas('$MODEL_VARIABLE_PLURAL$');
-        $response->assertSee($$MODEL_VARIABLE$->{$this->itemColumn});
+        if (!$this->useDatatables) {
+            $response->assertViewIs('$VIEW_PATH$.index');
+        } else {
+            $response->assertViewIs('$VIEW_PATH$.datatables-index');
+        }
+
+        $response->assertViewHas('$MODEL_VARIABLE_PLURAL$');
+
+        if (!$this->useDatatables) {
+            $response->assertSee($$MODEL_VARIABLE$->{$this->itemColumn});
+        }
     }
 
     /** @test */

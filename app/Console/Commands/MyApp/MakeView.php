@@ -88,6 +88,57 @@ class MakeView extends Command
 
             $this->restoreOutputSetting();
         }
+
+        $includeViews = ['messages', 'success-message', 'validation-errors-messages'];
+        foreach ($includeViews as $view) {
+            $this->storeOutputSetting($view);
+
+            if ($this->option('debug')) {
+                $this->line('Output Path is : ' . $this->outputPath);
+            }
+
+            $this->stubFile = str_replace('/resources/views/crud/', '/resources/views/includes/', $this->stubFile);
+            $this->outputPath = str_replace($viewDirectory, 'includes', $this->outputPath);
+
+            $newFile = $this->outputPath . '/' . $this->outputName . '.php';
+            $fileExists = $this->fileIsExists($newFile);
+            if (!$fileExists) {
+                $success = $this->makeFileFromStub($this->outputPath);
+                if ($success) {
+                    $this->info($this->fileType . ' (' . $view . ') created successfully.');
+                }
+            }
+
+            $this->restoreOutputSetting();
+            $this->outputPath = str_replace('includes', $viewDirectory, $this->outputPath);
+        }
+
+        $layoutViews = ['main'];
+        foreach ($layoutViews as $view) {
+            $this->storeOutputSetting($view);
+
+            if ($this->option('debug')) {
+                $this->line('Output Path is : ' . $this->outputPath);
+            }
+
+            $this->stubFile = str_replace('/resources/views/crud/', '/resources/views/layouts/', $this->stubFile);
+            $this->outputPath = str_replace($viewDirectory, 'layouts', $this->outputPath);
+
+            $newFile = $this->outputPath . '/' . $this->outputName . '.php';
+            $fileExists = $this->fileIsExists($newFile);
+            if (!$fileExists) {
+                $success = $this->makeFileFromStub($this->outputPath);
+                if ($success) {
+                    $this->info($this->fileType . ' (' . $view . ') created successfully.');
+                }
+            }
+
+
+            $this->restoreOutputSetting();
+            $this->outputPath = str_replace('layouts', $viewDirectory, $this->outputPath);
+        }
+
+
     }
 
     public function storeOutputSetting($view)

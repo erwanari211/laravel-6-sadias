@@ -64,6 +64,7 @@ class MakeController extends Command
 
         $success = $this->makeFileFromStub($this->outputPath);
         if ($success) {
+            $this->addRouteGroup();
             $this->addRoute();
             $this->info($this->fileType . ' created successfully.');
         }
@@ -162,5 +163,42 @@ class MakeController extends Command
             }
 
         }
+    }
+
+    public function addRouteGroup()
+    {
+        $fileDirectories = $this->getFileDirectoryData();
+
+        $module = $this->option('module');
+        if ($module) {
+            $routeDirectory = str_replace(
+                rtrim($fileDirectories['controller'], '/'),
+                rtrim($fileDirectories['route'], '/'),
+                $this->outputPath
+            );
+
+            $routeFile = $routeDirectory . '/web.php';
+            $isExists = $this->fileIsExists($routeFile);
+            if ($isExists) {
+                $moduleRouteName = $module ? Str::kebab($module) : '';
+                $newResourceRoute = 'Route::group([\'prefix\' => \'' . $moduleRouteName . '\', \'as\' => \'' . $moduleRouteName . '.\'], function () {';
+                $currentContent = File::get($routeFile);
+
+                $routeAlreadyExists = false;
+                if (strpos($currentContent, $newResourceRoute) !== false) {
+                    $routeAlreadyExists = true;
+                }
+
+                if (!$routeAlreadyExists) {
+                    $newContent = $currentContent . "\n\n";
+                    $newResourceRoute .= "\n\n";
+                    $newResourceRoute .= '});';
+                    $newContent .= $newResourceRoute . "\n";
+                    File::put($routeFile, $newContent);
+                }
+
+            }
+        }
+
     }
 }

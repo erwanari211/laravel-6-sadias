@@ -1,5 +1,6 @@
 {
     "ExampleBlog": true,
     "ExampleDocuments": true,
-    "ExampleTest": true
+    "ExampleTest": true,
+    "ExamplePermission": true
 }
