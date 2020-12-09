@@ -6,11 +6,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use \Spatie\Permission\Traits\HasRoles;
+use Plank\Metable\Metable;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+    use Metable;
 
     /**
      * The attributes that are mass assignable.
@@ -52,7 +54,9 @@ class User extends Authenticatable
     // protected $fillable = ['name'];
     // protected $hidden = [];
     // protected $dates = [];
-    // protected $with = [];
+    protected $with = [
+        'meta'
+    ];
     // protected $perPage = 15;
     // protected $casts = [
     //    'is_active' => 'boolean',
