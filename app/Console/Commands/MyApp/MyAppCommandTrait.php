@@ -229,4 +229,17 @@ trait MyAppCommandTrait
 
         return $itemColumn;
     }
+
+    public function checkUseAuth()
+    {
+        $this->readFileSettings();
+        $useAuth = true;
+
+        $settings = $this->settings;
+        if (isset($settings['useAuth'])) {
+            $useAuth = $settings['useAuth'];
+        }
+
+        return $useAuth;
+    }
 }

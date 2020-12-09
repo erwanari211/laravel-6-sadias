@@ -1,0 +1,148 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User;
+use $MODEL_CLASS_NAMESPACE$\$MODEL_CLASS$;
+
+class $REQUEST_TEST_CLASS$ extends TestCase
+{
+    use RefreshDatabase, WithFaker;
+
+    public $itemColumn;
+    public $itemUserColumn;
+    public $itemAttributes;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setBaseRoute('$MODULE_ROUTE_NAME$$ROUTE_NAME$');
+        $this->setBaseModel($MODEL_CLASS$::class);
+
+        $attributes = [];
+
+        $this->itemUserColumn = '$ITEM_USER_COLUMN$';
+        $this->itemColumn = '$ITEM_COLUMN$';
+        $this->itemAttributes = $attributes;
+    }
+
+    private function getItemFields($overrides = [])
+    {
+        $item = make($this->base_model, $this->itemAttributes);
+        $data = $item->toArray();
+        $itemFields = array_merge($data, $overrides);
+        return $itemFields;
+    }
+
+    /**
+     * @test
+     * @dataProvider storeItemDataProvider
+     */
+    public function it_validate_store_$MODEL_VARIABLE$_request($field, $formFields, $shouldPass = false)
+    {
+        $this->signIn();
+        $this->beforeValidateStoreRequest();
+
+        $response = $this->createItem($this->getItemFields($formFields));
+
+        if (!$shouldPass) {
+            $response->assertSessionHasErrors([$field]);
+        } else {
+            $response->assertSessionHasNoErrors([$field]);
+        }
+    }
+
+    public function beforeValidateStoreRequest()
+    {
+$BEFORE_STORE_REQUEST$
+    }
+
+    public function storeItemDataProvider()
+    {
+        return [
+$STORE_ITEM_DATA_PROVIDER$
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider updateItemDataProvider
+     */
+    public function it_validate_update_$MODEL_VARIABLE$_request($field, $formFields, $shouldPass = false)
+    {
+        $this->signIn();
+        $this->beforeValidateUpdateRequest();
+
+        $attributes = $this->itemAttributes;
+        $$MODEL_VARIABLE$ = $this->newItem($attributes);
+
+        $response = $this->updateItem($$MODEL_VARIABLE$->id, $this->getItemFields($formFields));
+
+        if (!$shouldPass) {
+            $response->assertSessionHasErrors([$field]);
+        } else {
+            $response->assertSessionHasNoErrors([$field]);
+        }
+    }
+
+    public function beforeValidateUpdateRequest()
+    {
+$BEFORE_UPDATE_REQUEST$
+    }
+
+    public function updateItemDataProvider()
+    {
+        return [
+$UPDATE_ITEM_DATA_PROVIDER$
+        ];
+    }
+
+    /** @test */
+    public function authenticated_user_can_create_$MODEL_VARIABLE$()
+    {
+        $this->signIn();
+
+        $attributes = $this->itemAttributes;
+        $name = $this->faker->word;
+        $attributes[$this->itemColumn] = $name;
+        $this->createItem($attributes);
+
+        $model = new $this->base_model;
+        $this->assertDatabaseHas($model->getTable(), [$this->itemColumn => $name]);
+    }
+
+    /** @test */
+    public function guest_cannot_create_$MODEL_VARIABLE$()
+    {
+        $attributes = $this->itemAttributes;
+        $response = $this->createItem($attributes);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('login');
+    }
+
+    /** @test */
+    public function authenticated_user_can_update_$MODEL_VARIABLE$()
+    {
+        $this->signIn();
+
+        $attributes = $this->itemAttributes;
+        $$MODEL_VARIABLE$ = $this->newItem($attributes);
+        $oldName = $$MODEL_VARIABLE$->{$this->itemColumn};
+
+        $this->updateItem($$MODEL_VARIABLE$->id, $attributes);
+
+        $$MODEL_VARIABLE$->refresh();
+        $model = new $this->base_model;
+        $this->assertDatabaseHas($model->getTable(), [
+            $this->itemColumn => $$MODEL_VARIABLE$->{$this->itemColumn},
+        ]);
+        $this->assertDatabaseMissing($model->getTable(), [
+            $this->itemColumn => $oldName,
+        ]);
+    }
+}

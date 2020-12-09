@@ -27,6 +27,13 @@ class $MODEL_TEST_CLASS$ extends TestCase
         $this->itemAttributes = $attributes;
     }
 
+
+    /** @test */
+    public function example()
+    {
+        $this->assertTrue(true);
+    }
+
 $MODEL_RELATIONS_TESTS$
 
 }

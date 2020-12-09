@@ -54,6 +54,11 @@ class MakeControllerTest extends Command
     {
         $this->name = $this->argument('name');
 
+        $useAuth = $this->checkUseAuth();
+        if (!$useAuth) {
+            $this->stubFile = str_replace('.stub', '-no-auth.stub', $this->stubFile);
+        }
+
         $this->setData();
         $this->setOutputName();
         $this->setOutputPath();
