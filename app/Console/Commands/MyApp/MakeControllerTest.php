@@ -54,6 +54,11 @@ class MakeControllerTest extends Command
     {
         $this->name = $this->argument('name');
 
+        $useAuth = $this->checkUseAuth();
+        if (!$useAuth) {
+            $this->stubFile = str_replace('.stub', '-no-auth.stub', $this->stubFile);
+        }
+
         $this->setData();
         $this->setOutputName();
         $this->setOutputPath();
@@ -89,6 +94,7 @@ class MakeControllerTest extends Command
 
         $module = $this->option('module');
         $useDatatables = $this->checkUseDatatables();
+        $itemColumn = $this->checkItemColumn();
 
         $replaceData = [
             'CONTROLLER_TEST_CLASS' => $this->outputName,
@@ -108,6 +114,7 @@ class MakeControllerTest extends Command
             'VIEW_PATH' => $this->data['VIEW_PATH'],
             'ITEM_USER_COLUMN' => $this->getItemUserColumn(),
             'USE_DATATABLES' => $useDatatables,
+            'ITEM_COLUMN' => $itemColumn,
         ];
 
         return $replaceData;

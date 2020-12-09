@@ -78,7 +78,6 @@ $STORE_ITEM_DATA_PROVIDER$
         $this->beforeValidateUpdateRequest();
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
 
         $response = $this->updateItem($$MODEL_VARIABLE$->id, $this->getItemFields($formFields));
@@ -108,11 +107,12 @@ $UPDATE_ITEM_DATA_PROVIDER$
         $this->signIn();
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
+        $name = $this->faker->word;
+        $attributes[$this->itemColumn] = $name;
         $this->createItem($attributes);
 
         $model = new $this->base_model;
-        $this->assertDatabaseHas($model->getTable(), [$this->itemUserColumn => $this->user->id]);
+        $this->assertDatabaseHas($model->getTable(), [$this->itemColumn => $name]);
     }
 
     /** @test */
@@ -131,7 +131,6 @@ $UPDATE_ITEM_DATA_PROVIDER$
         $this->signIn();
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
         $oldName = $$MODEL_VARIABLE$->{$this->itemColumn};
 
@@ -140,24 +139,10 @@ $UPDATE_ITEM_DATA_PROVIDER$
         $$MODEL_VARIABLE$->refresh();
         $model = new $this->base_model;
         $this->assertDatabaseHas($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
             $this->itemColumn => $$MODEL_VARIABLE$->{$this->itemColumn},
         ]);
         $this->assertDatabaseMissing($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
             $this->itemColumn => $oldName,
         ]);
-    }
-
-    /** @test */
-    public function authenticated_user_cannot_update_others_$MODEL_VARIABLE$()
-    {
-        $this->signIn();
-        $attributes = $this->itemAttributes;
-        $other = $this->newItem($this->itemAttributes);
-
-        $response = $this->updateItem($other->id);
-
-        $response->assertStatus(403);
     }
 }

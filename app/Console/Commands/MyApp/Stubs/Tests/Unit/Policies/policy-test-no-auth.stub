@@ -43,7 +43,6 @@ class $POLICY_TEST_CLASS$ extends TestCase
     {
         $this->signIn();
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
         $this->assertTrue($this->user->can('view', $$MODEL_VARIABLE$));
     }
@@ -53,7 +52,6 @@ class $POLICY_TEST_CLASS$ extends TestCase
     {
         $this->signIn();
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
         $this->assertTrue($this->user->can('update', $$MODEL_VARIABLE$));
     }
@@ -63,19 +61,7 @@ class $POLICY_TEST_CLASS$ extends TestCase
     {
         $this->signIn();
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
         $this->assertTrue($this->user->can('delete', $$MODEL_VARIABLE$));
-    }
-
-    /** @test */
-    public function user_cannot_access_others_$MODEL_VARIABLE$()
-    {
-        $this->signIn();
-        $attributes = $this->itemAttributes;
-        $$MODEL_VARIABLE$ = $this->newItem($attributes);
-        $this->assertFalse($this->user->can('view', $$MODEL_VARIABLE$));
-        $this->assertFalse($this->user->can('update', $$MODEL_VARIABLE$));
-        $this->assertFalse($this->user->can('delete', $$MODEL_VARIABLE$));
     }
 }

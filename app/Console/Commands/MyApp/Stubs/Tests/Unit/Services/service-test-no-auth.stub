@@ -38,7 +38,6 @@ class $SERVICE_TEST_CLASS$ extends TestCase
         $service = new $SERVICE_CLASS$;
         $this->signIn();
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
 
         $$MODEL_VARIABLE_PLURAL$ = $service->getData();
@@ -50,35 +49,7 @@ class $SERVICE_TEST_CLASS$ extends TestCase
         // $this->assertArrayHasKey('owner', $$MODEL_VARIABLE_PLURAL$Array[0]);
 
         $this->assertCount(1, $$MODEL_VARIABLE_PLURAL$Array);
-        $this->assertEquals($$MODEL_VARIABLE_PLURAL$Array[0][$this->itemUserColumn], $$MODEL_VARIABLE$Array[$this->itemUserColumn]);
-        $this->assertEquals($$MODEL_VARIABLE_PLURAL$Array[0][$this->itemUserColumn], $this->user->id);
         $this->assertEquals($$MODEL_VARIABLE_PLURAL$Array[0][$this->itemColumn], $$MODEL_VARIABLE$Array[$this->itemColumn]);
-    }
-
-    /** @test */
-    public function it_cannot_fetch_others_$MODEL_VARIABLE_PLURAL$()
-    {
-        $service = new $SERVICE_CLASS$;
-        $this->signIn();
-        $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
-        $$MODEL_VARIABLE$ = $this->newItem($attributes);
-        // $$MODEL_VARIABLE$->load('owner');
-
-        $attributes = $this->itemAttributes;
-        $other$MODEL_VARIABLE$ = $this->newItem($attributes);
-
-        $$MODEL_VARIABLE_PLURAL$ = $service->getData();
-
-        $$MODEL_VARIABLE_PLURAL$Array = $$MODEL_VARIABLE_PLURAL$->jsonSerialize();
-        $$MODEL_VARIABLE$Array = $$MODEL_VARIABLE$->toArray();
-        $other$MODEL_VARIABLE$Array = $other$MODEL_VARIABLE$->toArray();
-
-        $this->assertContains($$MODEL_VARIABLE$Array, $$MODEL_VARIABLE_PLURAL$Array);
-        $this->assertNotContains($other$MODEL_VARIABLE$Array, $$MODEL_VARIABLE_PLURAL$Array);
-
-        $this->assertCount(1, $$MODEL_VARIABLE_PLURAL$Array);
-        $this->assertNotCount(2, $$MODEL_VARIABLE_PLURAL$Array);
     }
 
     /** @test */
@@ -87,15 +58,11 @@ class $SERVICE_TEST_CLASS$ extends TestCase
         $service = new $SERVICE_CLASS$;
         $this->signIn();
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
-        // $$MODEL_VARIABLE$->load('owner');
 
         $item = $service->getItem($$MODEL_VARIABLE$->id);
 
         $$MODEL_VARIABLE$Array = $$MODEL_VARIABLE$->toArray();
-        $this->assertEquals($item[$this->itemUserColumn], $$MODEL_VARIABLE$Array[$this->itemUserColumn]);
-        $this->assertEquals($item[$this->itemUserColumn], $this->user->id);
         $this->assertEquals($item[$this->itemColumn], $$MODEL_VARIABLE$Array[$this->itemColumn]);
     }
 
@@ -106,7 +73,6 @@ class $SERVICE_TEST_CLASS$ extends TestCase
         $this->signIn();
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $newName = $this->faker->sentence;
         $attributes[$this->itemColumn] = $newName;
 
@@ -114,11 +80,9 @@ class $SERVICE_TEST_CLASS$ extends TestCase
 
         $$MODEL_VARIABLE$ = $service->create($data->toArray());
 
-        $this->assertEquals($$MODEL_VARIABLE$[$this->itemUserColumn], $this->user->id);
         $this->assertEquals($$MODEL_VARIABLE$[$this->itemColumn], $newName);
         $model = new $this->base_model;
         $this->assertDatabaseHas($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
             $this->itemColumn => $newName
         ]);
     }
@@ -130,11 +94,9 @@ class $SERVICE_TEST_CLASS$ extends TestCase
         $this->signIn();
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $newName = $this->faker->sentence;
         $attributes[$this->itemColumn] = $newName;
 
@@ -162,7 +124,6 @@ class $SERVICE_TEST_CLASS$ extends TestCase
         $this->signIn();
 
         $attributes = $this->itemAttributes;
-        $attributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($attributes);
         $this->assertEquals(1, $model->all()->count());
         $oldName = $$MODEL_VARIABLE$->{$this->itemColumn};

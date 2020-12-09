@@ -54,6 +54,11 @@ class MakeServiceTest extends Command
     {
         $this->name = $this->argument('name');
 
+        $useAuth = $this->checkUseAuth();
+        if (!$useAuth) {
+            $this->stubFile = str_replace('.stub', '-no-auth.stub', $this->stubFile);
+        }
+
         $this->setData();
         $this->setOutputName();
         $this->setOutputPath();
@@ -88,6 +93,7 @@ class MakeServiceTest extends Command
         }
 
         $module = $this->option('module');
+        $itemColumn = $this->checkItemColumn();
         $replaceData = [
             'SERVICE_TEST_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
@@ -115,6 +121,7 @@ class MakeServiceTest extends Command
             'MODULE_ROUTE_NAME' => $module ? Str::kebab($module).'.' : '',
             'ROUTE_NAME' => $this->data['ROUTE_NAME'],
             'ITEM_USER_COLUMN' => $this->getItemUserColumn(),
+            'ITEM_COLUMN' => $itemColumn,
         ];
 
         return $replaceData;

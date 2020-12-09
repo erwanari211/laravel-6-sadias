@@ -87,6 +87,7 @@ class MakeModelTest extends Command
             }
         }
 
+        $itemColumn = $this->checkItemColumn();
         $replaceData = [
             'MODEL_TEST_CLASS' => $this->outputName,
             'NAMESPACE' => $this->pathToNamespace($this->classNamespace),
@@ -102,6 +103,7 @@ class MakeModelTest extends Command
             'MODEL_VARIABLE_PLURAL' => $this->data['MODEL_VARIABLE_PLURAL'],
             'ITEM_USER_COLUMN' => $this->getItemUserColumn(),
             'MODEL_RELATIONS_TESTS' => $this->getModelRelationTestCases(),
+            'ITEM_COLUMN' => $itemColumn,
         ];
 
         return $replaceData;

@@ -216,4 +216,30 @@ trait MyAppCommandTrait
 
         return $useDatatables;
     }
+
+    public function checkItemColumn()
+    {
+        $this->readFileSettings();
+        $itemColumn = 'name';
+
+        $settings = $this->settings;
+        if (isset($settings['itemColumn']) && $settings['itemColumn']) {
+            $itemColumn = $settings['itemColumn'];
+        }
+
+        return $itemColumn;
+    }
+
+    public function checkUseAuth()
+    {
+        $this->readFileSettings();
+        $useAuth = true;
+
+        $settings = $this->settings;
+        if (isset($settings['useAuth'])) {
+            $useAuth = $settings['useAuth'];
+        }
+
+        return $useAuth;
+    }
 }

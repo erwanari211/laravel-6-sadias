@@ -51,7 +51,6 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
     public function authenticated_user_can_read_all_their_$MODEL_VARIABLE_PLURAL$()
     {
         $this->signIn();
-        $this->itemAttributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($this->itemAttributes);
 
         $response = $this->readAllItems();
@@ -68,20 +67,6 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
         if (!$this->useDatatables) {
             $response->assertSee($$MODEL_VARIABLE$->{$this->itemColumn});
         }
-    }
-
-    /** @test */
-    public function authenticated_user_cannot_read_others_$MODEL_VARIABLE_PLURAL$()
-    {
-        $this->signIn();
-        $otherUser = create(User::class);
-        $this->itemAttributes[$this->itemUserColumn] = $otherUser->id;
-        $$MODEL_VARIABLE$ = $this->newItem($this->itemAttributes);
-
-        $response = $this->readAllItems();
-
-        $response->assertStatus(200);
-        $response->assertDontSee($$MODEL_VARIABLE$->{$this->itemColumn});
     }
 
     /** @test */
@@ -136,7 +121,6 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
     public function authenticated_user_can_view_a_$MODEL_VARIABLE$()
     {
         $this->signIn();
-        $this->itemAttributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($this->itemAttributes);
 
         $response = $this->readItem($$MODEL_VARIABLE$->id);
@@ -144,19 +128,6 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('$VIEW_PATH$.show');
 		$response->assertViewHas('$MODEL_VARIABLE$');
-    }
-
-    /** @test */
-    public function authenticated_user_cannot_view_others_$MODEL_VARIABLE$()
-    {
-        $this->signIn();
-        $otherUser = create(User::class);
-        $this->itemAttributes[$this->itemUserColumn] = $otherUser->id;
-        $$MODEL_VARIABLE$ = $this->newItem($this->itemAttributes);
-
-        $response = $this->readItem($$MODEL_VARIABLE$->id);
-
-        $response->assertStatus(403);
     }
 
     /** @test */
@@ -175,7 +146,6 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
     {
         $this->signIn();
 
-        $this->itemAttributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($this->itemAttributes);
         $oldName = $$MODEL_VARIABLE$->{$this->itemColumn};
         $newName = $this->faker->sentence;
@@ -192,11 +162,9 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
         $model = new $this->base_model;
         $this->assertEquals(1, $model->all()->count());
         $this->assertDatabaseHas($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
             $this->itemColumn => $newName,
         ]);
         $this->assertDatabaseMissing($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
             $this->itemColumn => $oldName,
         ]);
 
@@ -210,25 +178,9 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
     }
 
     /** @test */
-    public function authorized_user_cannot_update_others_$MODEL_VARIABLE$()
-    {
-        $this->signIn();
-        $otherUser = create(User::class);
-        $this->itemAttributes[$this->itemUserColumn] = $otherUser->id;
-        $$MODEL_VARIABLE$ = $this->newItem($this->itemAttributes);
-        $newName = $this->faker->sentence;
-        $$MODEL_VARIABLE$->{$this->itemColumn} = $newName;
-
-        $response = $this->updateItem($$MODEL_VARIABLE$->id, $$MODEL_VARIABLE$->toArray());
-
-        $response->assertStatus(403);
-    }
-
-    /** @test */
     public function authorized_user_can_delete_the_$MODEL_VARIABLE$()
     {
         $this->signIn();
-        $this->itemAttributes[$this->itemUserColumn] = $this->user->id;
         $$MODEL_VARIABLE$ = $this->newItem($this->itemAttributes);
 
         $response = $this->deleteItem($$MODEL_VARIABLE$->id);
@@ -236,7 +188,6 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
         $model = new $this->base_model;
         $this->assertEquals(0, $model->all()->count());
         $this->assertDatabaseMissing($model->getTable(), [
-            $this->itemUserColumn => $this->user->id,
             $this->itemColumn => $$MODEL_VARIABLE$->{$this->itemColumn},
         ]);
 
@@ -247,24 +198,5 @@ class $CONTROLLER_TEST_CLASS$ extends TestCase
         $session = session('flash_notification')[0];
         $this->assertEquals($session['message'], __('my_app.messages.data_deleted'));
         $response->assertStatus(302);
-    }
-
-    /** @test */
-    public function authorized_user_cannot_delete_others_$MODEL_VARIABLE$()
-    {
-        $this->signIn();
-        $otherUser = create(User::class);
-        $this->itemAttributes[$this->itemUserColumn] = $otherUser->id;
-        $$MODEL_VARIABLE$ = $this->newItem($this->itemAttributes);
-
-        $response = $this->deleteItem($$MODEL_VARIABLE$->id);
-
-        $model = new $this->base_model;
-        $this->assertEquals(1, $model->all()->count());
-        $this->assertDatabaseHas($model->getTable(), [
-            $this->itemUserColumn => $otherUser->id,
-            $this->itemColumn => $$MODEL_VARIABLE$->{$this->itemColumn},
-        ]);
-        $response->assertStatus(403);
     }
 }
