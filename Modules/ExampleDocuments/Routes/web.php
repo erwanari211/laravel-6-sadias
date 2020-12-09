@@ -29,4 +29,8 @@ Route::group(['prefix' => 'example-documents', 'as' => 'example.documents.'], fu
     Route::get('/export-excel', 'ExportExcelController@export')->name('excel.exports.export');
     Route::get('/import-excel', 'ImportExcelController@displayImportForm')->name('excel.imports.form');
     Route::post('/import-excel', 'ImportExcelController@import')->name('excel.imports.import');
+
+    Route::delete('/metas/users/{user}/metas', 'UserMetaController@metaDestroy')->name('users.metas.destroy');
+    Route::post('/metas/users/{user}/metas', 'UserMetaController@metaStore')->name('users.metas.store');
+    Route::resource('/metas/users', 'UserMetaController');
 });
